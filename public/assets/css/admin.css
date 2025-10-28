@@ -1,0 +1,246 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --brand-blue: #2f5fd7;
+  --brand-blue-light: #a9c8ff;
+  --brand-blue-lighter: #daf0ff;
+  --brand-yellow: #f4c05d;
+  --surface: #ffffff;
+  --text-dark: #1f2a44;
+  --text-muted: #5c6883;
+  --border-card: #b5c7ef;
+  --shadow: 0 20px 40px rgba(47, 95, 215, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+  background: linear-gradient(180deg, #eaf5ff 0%, #f6fbff 80%);
+  color: var(--text-dark);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 34px;
+  background: #cfe4ff;
+  box-shadow: 0 4px 18px rgba(57, 110, 206, 0.15);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--brand-blue);
+}
+
+.brand-logo {
+  width: 46px;
+  height: 46px;
+  padding: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 18px rgba(47, 95, 215, 0.15);
+}
+
+.brand-logo img {
+  width: 32px;
+  height: 32px;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.user-menu form {
+  margin: 0;
+}
+
+.logout-button {
+  border: none;
+  background: rgba(47, 95, 215, 0.18);
+  color: var(--brand-blue);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background: rgba(47, 95, 215, 0.32);
+  transform: translateY(-1px);
+}
+
+.logout-button:focus {
+  outline: 2px solid rgba(47, 95, 215, 0.4);
+}
+
+.user-menu .name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.role-tag {
+  font-size: 13px;
+  color: var(--brand-blue);
+}
+
+.avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--brand-blue);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.dropdown-icon {
+  font-size: 16px;
+  color: var(--brand-blue);
+}
+
+.content {
+  flex: 1 1 auto;
+  padding: 48px 34px 80px;
+}
+
+.welcome {
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 36px;
+}
+
+.welcome span {
+  color: var(--brand-blue);
+  font-weight: 700;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+.card {
+  text-decoration: none;
+  background: var(--surface);
+  border: 2px solid rgba(181, 199, 239, 0.65);
+  border-radius: 24px;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  color: var(--text-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+  border-color: rgba(47, 95, 215, 0.4);
+}
+
+.card-icon {
+  width: 98px;
+  height: 98px;
+  border-radius: 24px;
+  background: var(--brand-blue-lighter);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.card-icon svg {
+  width: 44px;
+  height: 44px;
+  fill: var(--brand-blue);
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand-yellow);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1f2a44;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  box-shadow: 0 12px 24px rgba(31, 42, 68, 0.35);
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .content {
+    padding: 32px 20px 60px;
+  }
+
+  .welcome {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}

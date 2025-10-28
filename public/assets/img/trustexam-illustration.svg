@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="280" viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eaf4ff"/>
+      <stop offset="100%" stop-color="#cde0ff"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="300" height="280" fill="url(#bg)" rx="16"/>
+  <g transform="translate(35 60)">
+    <g transform="rotate(-10 40 90)">
+      <rect x="0" y="100" width="170" height="36" rx="18" fill="#ffe9b3"/>
+      <rect x="10" y="106" width="150" height="24" rx="12" fill="#fff5d6"/>
+      <rect x="140" y="100" width="32" height="36" rx="18" fill="#f4c05d"/>
+      <circle cx="156" cy="118" r="8" fill="#f79b3d"/>
+      <path d="M156 109 L162 124 L150 124 Z" fill="#ed7a11"/>
+    </g>
+    <g transform="translate(20 -20)">
+      <path d="M0 40 L120 0 L240 40 L120 80 Z" fill="#2f5fd7"/>
+      <path d="M120 80 L120 170 L210 140 L210 48 Z" fill="#2349a9"/>
+      <path d="M120 80 L120 170 L30 140 L30 48 Z" fill="#3b75ec"/>
+      <path d="M120 90 C95 100 68 100 40 94 L40 124 C80 132 110 128 120 126 Z" fill="#1f4faa"/>
+      <path d="M120 90 C145 100 172 100 200 94 L200 124 C160 132 130 128 120 126 Z" fill="#1b46a0"/>
+      <circle cx="120" cy="40" r="16" fill="#fbc75d"/>
+      <path d="M120 56 L123 160 L135 180 L120 200 L105 180 L117 160 Z" fill="#f4c05d"/>
+      <circle cx="120" cy="204" r="10" fill="#f79b3d"/>
+    </g>
+  </g>
+</svg>
