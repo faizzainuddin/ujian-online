@@ -39,6 +39,14 @@
         <div class="users-container">
           <a class="back-link" href="{{ route('admin.dashboard') }}">&#8592; Kembali ke Dashboard</a>
 
+          @if (session('status'))
+            <div class="alert-success" role="status">{{ session('status') }}</div>
+          @endif
+
+          @if ($errors->any())
+            <div class="alert-error" role="alert">{{ $errors->first() }}</div>
+          @endif
+
           <div class="toolbar">
             <form class="filter-group" action="{{ route('admin.users.data') }}" method="get">
               <label for="roleSelect">Peran Pengguna</label>
@@ -68,12 +76,17 @@
                     @endforeach
                     <td>
                       <div class="actions">
-                        <button class="icon-btn icon-edit" title="Ubah" type="button" disabled>
+                        <a class="icon-btn icon-edit" title="Ubah" href="{{ route('admin.users.edit', ['role' => $activeRole, 'id' => $row['id'], 'redirect' => 'data']) }}">
                           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>
-                        </button>
-                        <button class="icon-btn icon-delete" title="Hapus" type="button" disabled>
-                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12v2H6zm2 3h8l-1 10H9L8 10zm3-6h2l1 1h4v2H4V5h4l1-1z"/></svg>
-                        </button>
+                        </a>
+                        <form action="{{ route('admin.users.destroy', ['role' => $activeRole, 'id' => $row['id']]) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                          @csrf
+                          @method('DELETE')
+                          <input type="hidden" name="redirect" value="data" />
+                          <button class="icon-btn icon-delete" title="Hapus" type="submit">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12v2H6zm2 3h8l-1 10H9L8 10zm3-6h2l1 1h4v2H4V5h4l1-1z"/></svg>
+                          </button>
+                        </form>
                       </div>
                     </td>
                   </tr>

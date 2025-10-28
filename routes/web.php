@@ -16,5 +16,8 @@ Route::middleware('admin.auth')->group(function () {
         Route::get('/admin/users/data', 'data')->name('admin.users.data');
         Route::get('/admin/users/create', 'create')->name('admin.users.create');
         Route::post('/admin/users', 'store')->name('admin.users.store');
+        Route::get('/admin/users/{role}/{id}/edit', 'edit')->name('admin.users.edit');
+        Route::put('/admin/users/{role}/{id}', 'update')->name('admin.users.update');
+        Route::delete('/admin/users/{role}/{id}', 'destroy')->name('admin.users.destroy');
     });
 });

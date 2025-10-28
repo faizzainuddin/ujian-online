@@ -155,6 +155,10 @@ table.users-table tbody tr:nth-child(even) {
   gap: 12px;
 }
 
+.actions form {
+  margin: 0;
+}
+
 .icon-btn {
   width: 28px;
   height: 28px;
@@ -178,6 +182,16 @@ table.users-table tbody tr:nth-child(even) {
   background: rgba(74, 208, 126, 0.18);
   border: 1.4px solid rgba(74, 208, 126, 0.65);
   color: #1d9a55;
+  font-weight: 600;
+}
+
+.alert-error {
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(255, 107, 107, 0.15);
+  border: 1.4px solid rgba(255, 107, 107, 0.45);
+  color: #c0392b;
   font-weight: 600;
 }
 

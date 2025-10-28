@@ -39,6 +39,132 @@ class AdminUserController extends Controller
         ]);
     }
 
+    public function edit(Request $request, string $role, int $id): View
+    {
+        $role = $this->resolveRole($role);
+        $entity = $this->findEntity($role, $id);
+
+        $redirect = $request->query('redirect', 'index');
+
+        return view('admin.users.edit', [
+            'formRole' => $role,
+            'entity' => $entity,
+            'redirectTarget' => $redirect,
+            'statuses' => ['Aktif', 'Nonaktif'],
+            'genders' => ['Laki-laki', 'Perempuan'],
+            'kelasList' => ['X IPA 1', 'X IPA 2', 'XI IPS 1', 'XII IPA 1'],
+        ]);
+    }
+
+    public function update(Request $request, string $role, int $id): RedirectResponse
+    {
+        $role = $this->resolveRole($role);
+        $entity = $this->findEntity($role, $id);
+
+        switch ($role) {
+            case 'Guru':
+                $validated = $request->validate([
+                    'nama_guru' => ['required', 'string', 'max:100'],
+                    'username' => ['required', 'string', 'max:50', 'unique:guru,username,'.$entity->getKey().','.$entity->getKeyName()],
+                    'password' => ['nullable', 'string', 'min:6'],
+                    'matapelajaran' => ['required', 'string', 'max:100'],
+                ]);
+
+                $entity->fill([
+                    'nama_guru' => $validated['nama_guru'],
+                    'username' => $validated['username'],
+                    'matapelajaran' => $validated['matapelajaran'],
+                ]);
+
+                if (! empty($validated['password'])) {
+                    $entity->password = $validated['password'];
+                }
+
+                $entity->save();
+
+                return $this->redirectAfter($request, $role, 'Data guru berhasil diperbarui.');
+            case 'Admin':
+                $validated = $request->validate([
+                    'nama_admin' => ['required', 'string', 'max:100'],
+                    'username' => ['required', 'string', 'max:50', 'unique:admin,username,'.$entity->getKey().','.$entity->getKeyName()],
+                    'password' => ['nullable', 'string', 'min:6'],
+                ]);
+
+                $entity->fill([
+                    'nama_admin' => $validated['nama_admin'],
+                    'username' => $validated['username'],
+                ]);
+
+                if (! empty($validated['password'])) {
+                    $entity->password = $validated['password'];
+                }
+
+                $entity->save();
+
+                return $this->redirectAfter($request, $role, 'Data admin berhasil diperbarui.');
+            case 'Siswa':
+            default:
+                $validated = $request->validate([
+                    'nama_siswa' => ['required', 'string', 'max:100'],
+                    'nis' => ['required', 'string', 'max:20', 'unique:siswa,nis,'.$entity->getKey().','.$entity->getKeyName()],
+                    'username' => ['required', 'string', 'max:50', 'unique:siswa,username,'.$entity->getKey().','.$entity->getKeyName()],
+                    'password' => ['nullable', 'string', 'min:6'],
+                    'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
+                    'kelas' => ['required', 'string', 'max:50'],
+                    'tempat_lahir' => ['required', 'string', 'max:100'],
+                    'tanggal_lahir' => ['required', 'date'],
+                    'status' => ['required', 'in:Aktif,Nonaktif'],
+                    'alamat' => ['required', 'string', 'max:255'],
+                ]);
+
+                $entity->fill([
+                    'nama_siswa' => $validated['nama_siswa'],
+                    'nis' => $validated['nis'],
+                    'username' => $validated['username'],
+                    'jenis_kelamin' => $validated['jenis_kelamin'],
+                    'kelas' => $validated['kelas'],
+                    'tempat_lahir' => $validated['tempat_lahir'],
+                    'tanggal_lahir' => $validated['tanggal_lahir'],
+                    'status' => $validated['status'],
+                    'alamat' => $validated['alamat'],
+                    'role' => 'Siswa',
+                ]);
+
+                if (! empty($validated['password'])) {
+                    $entity->password = $validated['password'];
+                    $entity->password_hint = $validated['password'];
+                }
+
+                $entity->save();
+
+                return $this->redirectAfter($request, $role, 'Data siswa berhasil diperbarui.');
+        }
+    }
+
+    public function destroy(Request $request, string $role, int $id): RedirectResponse
+    {
+        $role = $this->resolveRole($role);
+        $entity = $this->findEntity($role, $id);
+
+        if ($role === 'Admin') {
+            $loggedInAdmin = $request->session()->get('admin');
+            if ($loggedInAdmin && (int) ($loggedInAdmin['id'] ?? 0) === (int) $entity->getKey()) {
+                return $this->redirectAfter($request, $role)
+                    ->withErrors(['general' => 'Tidak dapat menghapus akun admin yang sedang digunakan.']);
+            }
+        }
+
+        $entity->delete();
+
+        $message = match ($role) {
+            'Guru' => 'Data guru berhasil dihapus.',
+            'Admin' => 'Data admin berhasil dihapus.',
+            default => 'Data siswa berhasil dihapus.',
+        };
+
+        return $this->redirectAfter($request, $role, $message);
+    }
+
     public function create(Request $request): View
     {
         $role = $this->resolveRole($request->query('role', 'Siswa'));
@@ -163,6 +289,7 @@ class AdminUserController extends Controller
                 $status = $siswa->status ?? 'Aktif';
 
                 return [
+                    'id' => $siswa->getKey(),
                     'no' => $index + 1,
                     'name' => $siswa->nama_siswa,
                     'username' => $siswa->username,
@@ -182,6 +309,7 @@ class AdminUserController extends Controller
             ->values()
             ->map(function (Guru $guru, int $index) {
                 return [
+                    'id' => $guru->getKey(),
                     'no' => $index + 1,
                     'name' => $guru->nama_guru,
                     'username' => $guru->username,
@@ -201,6 +329,7 @@ class AdminUserController extends Controller
             ->values()
             ->map(function (Admin $admin, int $index) {
                 return [
+                    'id' => $admin->getKey(),
                     'no' => $index + 1,
                     'name' => $admin->nama_admin,
                     'username' => $admin->username,
@@ -223,6 +352,7 @@ class AdminUserController extends Controller
                     ->values()
                     ->map(function (Guru $guru, int $index) {
                         return [
+                            'id' => $guru->getKey(),
                             'data' => [
                                 $index + 1,
                                 $guru->nama_guru,
@@ -241,6 +371,7 @@ class AdminUserController extends Controller
                     ->values()
                     ->map(function (Admin $admin, int $index) {
                         return [
+                            'id' => $admin->getKey(),
                             'data' => [
                                 $index + 1,
                                 $admin->nama_admin,
@@ -261,6 +392,7 @@ class AdminUserController extends Controller
                         $lahir = $siswa->tanggal_lahir ? $siswa->tanggal_lahir->format('M d, Y') : '-';
 
                         return [
+                            'id' => $siswa->getKey(),
                             'data' => [
                                 $index + 1,
                                 $siswa->nama_siswa,
@@ -276,5 +408,27 @@ class AdminUserController extends Controller
                     }),
             ],
         };
+    }
+
+    private function findEntity(string $role, int $id)
+    {
+        return match ($role) {
+            'Guru' => Guru::findOrFail($id),
+            'Admin' => Admin::findOrFail($id),
+            default => Siswa::findOrFail($id),
+        };
+    }
+
+    private function redirectAfter(Request $request, string $role, ?string $message = null): RedirectResponse
+    {
+        $target = $request->input('redirect', 'index');
+        $route = $target === 'data' ? 'admin.users.data' : 'admin.users.index';
+        $redirect = redirect()->route($route, ['role' => $role]);
+
+        if ($message) {
+            $redirect->with('status', $message);
+        }
+
+        return $redirect;
     }
 }
