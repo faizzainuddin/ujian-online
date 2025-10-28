@@ -26,6 +26,19 @@ class AdminUserController extends Controller
         ]);
     }
 
+    public function data(Request $request): View
+    {
+        $role = $this->resolveRole($request->query('role', 'Siswa'));
+
+        $table = $this->buildDetailTable($role);
+
+        return view('admin.users.data', [
+            'activeRole' => $role,
+            'tableHeaders' => $table['headers'],
+            'tableRows' => $table['rows'],
+        ]);
+    }
+
     public function create(Request $request): View
     {
         $role = $this->resolveRole($request->query('role', 'Siswa'));
@@ -197,5 +210,71 @@ class AdminUserController extends Controller
                     'status_class' => 'aktif',
                 ];
             });
+    }
+
+    private function buildDetailTable(string $role): array
+    {
+        return match ($role) {
+            'Guru' => [
+                'headers' => ['No', 'Nama Guru', 'Username', 'Mata Pelajaran', 'Aksi'],
+                'rows' => Guru::query()
+                    ->orderBy('nama_guru')
+                    ->get()
+                    ->values()
+                    ->map(function (Guru $guru, int $index) {
+                        return [
+                            'data' => [
+                                $index + 1,
+                                $guru->nama_guru,
+                                $guru->username,
+                                $guru->matapelajaran,
+                            ],
+                            'actions' => true,
+                        ];
+                    }),
+            ],
+            'Admin' => [
+                'headers' => ['No', 'Nama Admin', 'Username', 'Role', 'Aksi'],
+                'rows' => Admin::query()
+                    ->orderBy('nama_admin')
+                    ->get()
+                    ->values()
+                    ->map(function (Admin $admin, int $index) {
+                        return [
+                            'data' => [
+                                $index + 1,
+                                $admin->nama_admin,
+                                $admin->username,
+                                'Admin',
+                            ],
+                            'actions' => true,
+                        ];
+                    }),
+            ],
+            default => [
+                'headers' => ['No', 'Nama Lengkap', 'NIS', 'Jenis Kelamin', 'Kelas', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat', 'Aksi'],
+                'rows' => Siswa::query()
+                    ->orderBy('nama_siswa')
+                    ->get()
+                    ->values()
+                    ->map(function (Siswa $siswa, int $index) {
+                        $lahir = $siswa->tanggal_lahir ? $siswa->tanggal_lahir->format('M d, Y') : '-';
+
+                        return [
+                            'data' => [
+                                $index + 1,
+                                $siswa->nama_siswa,
+                                $siswa->nis ?? '-',
+                                $siswa->jenis_kelamin ?? '-',
+                                $siswa->kelas ?? '-',
+                                $siswa->tempat_lahir ?? '-',
+                                $lahir,
+                                $siswa->alamat ?? '-',
+                            ],
+                            'actions' => true,
+                        ];
+                    }),
+            ],
+        };
     }
 }
