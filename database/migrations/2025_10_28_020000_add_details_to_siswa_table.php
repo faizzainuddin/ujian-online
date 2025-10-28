@@ -12,14 +12,45 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            $table->string('nis', 20)->unique()->after('siswa_id');
-            $table->string('password_hint', 100)->nullable()->after('password');
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable()->after('nama_siswa');
-            $table->string('tempat_lahir', 100)->nullable()->after('jenis_kelamin');
-            $table->date('tanggal_lahir')->nullable()->after('tempat_lahir');
-            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif')->after('kelas');
-            $table->string('alamat', 255)->nullable()->after('status');
-            $table->string('role', 30)->default('Siswa')->after('alamat');
+            if (! Schema::hasColumn('siswa', 'nis')) {
+                $table->string('nis', 20)->nullable();
+            }
+
+            if (! Schema::hasColumn('siswa', 'password_hint')) {
+                $table->string('password_hint', 100)->nullable();
+            }
+
+            if (! Schema::hasColumn('siswa', 'jenis_kelamin')) {
+                $table->string('jenis_kelamin', 20)->nullable();
+            }
+
+            if (! Schema::hasColumn('siswa', 'tempat_lahir')) {
+                $table->string('tempat_lahir', 100)->nullable();
+            }
+
+            if (! Schema::hasColumn('siswa', 'tanggal_lahir')) {
+                $table->date('tanggal_lahir')->nullable();
+            }
+
+            if (! Schema::hasColumn('siswa', 'status')) {
+                $table->string('status', 10)->default('Aktif');
+            }
+
+            if (! Schema::hasColumn('siswa', 'alamat')) {
+                $table->string('alamat', 255)->nullable();
+            }
+
+            if (! Schema::hasColumn('siswa', 'role')) {
+                $table->string('role', 30)->default('Siswa');
+            }
+        });
+
+        Schema::table('siswa', function (Blueprint $table) {
+            if (! Schema::hasColumn('siswa', 'nis')) {
+                return;
+            }
+
+            $table->unique('nis');
         });
     }
 
@@ -29,7 +60,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('siswa', function (Blueprint $table) {
-            $table->dropColumn([
+            if (Schema::hasColumn('siswa', 'nis')) {
+                $table->dropUnique('siswa_nis_unique');
+            }
+
+            $columns = [
                 'nis',
                 'jenis_kelamin',
                 'password_hint',
@@ -38,7 +73,13 @@ return new class extends Migration
                 'status',
                 'alamat',
                 'role',
-            ]);
+            ];
+
+            foreach ($columns as $column) {
+                if (Schema::hasColumn('siswa', $column)) {
+                    $table->dropColumn($column);
+                }
+            }
         });
     }
 };
