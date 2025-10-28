@@ -206,8 +206,8 @@ body {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 36px 40px;
-  max-width: 1060px;
+  gap: 36px 60px;
+  max-width: 1020px;
   margin: 0 auto;
   justify-items: center;
 }
