@@ -48,7 +48,7 @@
 
         <form
           class="form-card"
-          action="{{ $mode === 'edit' ? route('teacher.questions.update', $questionSet['id']) : route('teacher.questions.store') }}"
+          action="{{ $mode === 'edit' && $questionSet ? route('teacher.questions.update', $questionSet) : route('teacher.questions.store') }}"
           method="post"
         >
           @csrf
@@ -60,7 +60,7 @@
           <input type="hidden" name="semester" value="{{ $meta['semester'] }}" />
           <input type="hidden" name="class_level" value="{{ $meta['class_level'] }}" />
           @php
-            $questions = $questionSet['questions'] ?? [
+            $questionItems = $questions ?? [
                 [
                     'prompt' => '',
                     'options' => ['', '', '', '', ''],
@@ -70,11 +70,11 @@
           @endphp
 
           <div id="question-container">
-            @foreach ($questions as $index => $question)
+            @foreach ($questionItems as $index => $question)
               <section class="question-block" data-question-index="{{ $loop->index }}">
                 <div class="question-header">
                   <h4>Soal {{ $loop->iteration }}</h4>
-                  @if (count($questions) > 1)
+                  @if (count($questionItems) > 1)
                     <button type="button" class="remove-question" onclick="removeQuestion(this)">Hapus</button>
                   @endif
                 </div>

@@ -57,16 +57,16 @@
           <div class="card-grid">
             @foreach ($questionSets as $set)
               <article class="question-card">
-                <h3>{{ $set['subject'] }}</h3>
+                <h3>{{ $set->subject }}</h3>
                 <ul>
-                  <li><span>Ujian</span>{{ $set['exam_type'] }}</li>
-                  <li><span>Semester</span>{{ $set['semester'] }}</li>
-                  <li><span>Kelas</span>{{ $set['class_level'] }}</li>
-                  <li><span>Guru</span>{{ $set['author'] ?? $teacher['name'] }}</li>
+                  <li><span>Ujian</span>{{ $set->exam_type }}</li>
+                  <li><span>Semester</span>{{ $set->semester }}</li>
+                  <li><span>Kelas</span>{{ $set->class_level }}</li>
+                  <li><span>Guru</span>{{ optional($set->teacher)->nama_guru ?? $teacher['name'] }}</li>
                 </ul>
                 <div class="card-actions">
-                  <a class="btn btn-edit" href="{{ route('teacher.questions.edit', ['id' => $set['id']]) }}">Ubah</a>
-                  <form action="{{ route('teacher.questions.destroy', $set['id']) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus set soal ini?');">
+                  <a class="btn btn-edit" href="{{ route('teacher.questions.edit', $set) }}">Ubah</a>
+                  <form action="{{ route('teacher.questions.destroy', $set) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus set soal ini?');">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-delete" type="submit">Hapus</button>
