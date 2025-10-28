@@ -72,7 +72,12 @@
           <div id="question-container">
             @foreach ($questions as $index => $question)
               <section class="question-block" data-question-index="{{ $loop->index }}">
-                <h4>Soal {{ $loop->iteration }}</h4>
+                <div class="question-header">
+                  <h4>Soal {{ $loop->iteration }}</h4>
+                  @if (count($questions) > 1)
+                    <button type="button" class="remove-question" onclick="removeQuestion(this)">Hapus</button>
+                  @endif
+                </div>
                 <div class="form-group">
                   <label>Pertanyaan</label>
                   <textarea name="questions[{{ $loop->index }}][prompt]" placeholder="Masukkan pertanyaan">{{ $question['prompt'] }}</textarea>
@@ -112,7 +117,10 @@
 
     <template id="question-template">
       <section class="question-block">
-        <h4>Soal</h4>
+        <div class="question-header">
+          <h4>Soal</h4>
+          <button type="button" class="remove-question" onclick="removeQuestion(this)">Hapus</button>
+        </div>
         <div class="form-group">
           <label>Pertanyaan</label>
           <textarea placeholder="Masukkan pertanyaan"></textarea>
@@ -158,7 +166,51 @@
         });
 
         container.appendChild(clone);
+        refreshQuestionActions();
       }
+
+      function removeQuestion(button) {
+        const container = document.getElementById("question-container");
+        if (container.children.length === 1) {
+          alert("Minimal harus ada satu soal.");
+          return;
+        }
+
+        const block = button.closest(".question-block");
+        block.remove();
+        refreshQuestionActions();
+      }
+
+      function refreshQuestionActions() {
+        const container = document.getElementById("question-container");
+        const blocks = Array.from(container.children);
+
+        blocks.forEach((block, index) => {
+          block.setAttribute("data-question-index", index);
+          const title = block.querySelector(".question-header h4");
+          title.textContent = `Soal ${index + 1}`;
+
+          block.querySelectorAll("textarea").forEach(textarea => {
+            textarea.name = `questions[${index}][prompt]`;
+          });
+
+          block.querySelectorAll("input[type='text']").forEach((input, optIndex) => {
+            input.name = `questions[${index}][options][]`;
+          });
+
+          block.querySelectorAll("input[type='radio']").forEach((radio, optIndex) => {
+            radio.name = `questions[${index}][answer]`;
+            radio.value = optIndex;
+          });
+
+          const removeBtn = block.querySelector(".remove-question");
+          if (removeBtn) {
+            removeBtn.style.display = blocks.length > 1 ? "inline-flex" : "none";
+          }
+        });
+      }
+
+      refreshQuestionActions();
     </script>
   </body>
 </html>
