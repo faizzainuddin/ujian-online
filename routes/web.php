@@ -33,6 +33,9 @@ Route::middleware('teacher.auth')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::get('/builder', 'builder')->name('builder');
+            Route::post('/', 'store')->name('store');
+            Route::put('/{id}', 'update')->name('update');
             Route::get('/{id}/edit', 'builder')->name('edit');
+            Route::delete('/{id}', 'destroy')->name('destroy');
         });
 });

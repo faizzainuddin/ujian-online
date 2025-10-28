@@ -65,6 +65,32 @@ body {
   color: var(--text-muted);
 }
 
+.alert-error {
+  margin: 0 0 18px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(231, 76, 60, 0.12);
+  border: 1.4px solid rgba(231, 76, 60, 0.36);
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.alert-error ul {
+  margin: 0;
+  padding-left: 18px;
+  font-weight: 500;
+}
+
+.alert-success {
+  margin: 0 0 18px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(37, 182, 100, 0.14);
+  border: 1.4px solid rgba(37, 182, 100, 0.38);
+  color: #1f8d55;
+  font-weight: 600;
+}
+
 .user-menu .name {
   font-weight: 600;
   color: var(--text-dark);
@@ -243,6 +269,11 @@ body {
   display: flex;
   gap: 12px;
   margin-top: 8px;
+}
+
+.card-actions form {
+  flex: 1;
+  margin: 0;
 }
 
 .btn {

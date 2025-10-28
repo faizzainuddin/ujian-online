@@ -36,7 +36,29 @@
           <span class="meta-badge">📚 {{ $meta['semester'] }}</span>
         </div>
 
-        <form class="form-card" onsubmit="event.preventDefault(); alert('Contoh: Soal disimpan.');">
+        @if ($errors->any())
+          <div class="alert-error" role="alert">
+            <ul>
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
+        <form
+          class="form-card"
+          action="{{ $mode === 'edit' ? route('teacher.questions.update', $questionSet['id']) : route('teacher.questions.store') }}"
+          method="post"
+        >
+          @csrf
+          @if ($mode === 'edit')
+            @method('PUT')
+          @endif
+          <input type="hidden" name="subject" value="{{ $meta['subject'] }}" />
+          <input type="hidden" name="exam_type" value="{{ $meta['exam_type'] }}" />
+          <input type="hidden" name="semester" value="{{ $meta['semester'] }}" />
+          <input type="hidden" name="class_level" value="{{ $meta['class_level'] }}" />
           @php
             $questions = $questionSet['questions'] ?? [
                 [
