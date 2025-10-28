@@ -59,10 +59,10 @@
               <article class="question-card">
                 <h3>{{ $set['subject'] }}</h3>
                 <ul>
-                  <li>{{ $set['exam_type'] }}</li>
-                  <li>{{ $set['semester'] }}</li>
-                  <li>{{ $set['class_level'] }}</li>
-                  <li>{{ $set['author'] ?? $teacher['name'] }}</li>
+                  <li><span>Ujian</span>{{ $set['exam_type'] }}</li>
+                  <li><span>Semester</span>{{ $set['semester'] }}</li>
+                  <li><span>Kelas</span>{{ $set['class_level'] }}</li>
+                  <li><span>Guru</span>{{ $set['author'] ?? $teacher['name'] }}</li>
                 </ul>
                 <div class="card-actions">
                   <a class="btn btn-edit" href="{{ route('teacher.questions.edit', ['id' => $set['id']]) }}">Ubah</a>

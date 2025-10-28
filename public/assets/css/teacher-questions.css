@@ -244,8 +244,9 @@ body {
   padding: 24px 24px 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   box-shadow: var(--shadow);
+  min-height: 210px;
 }
 
 .question-card h3 {
@@ -258,32 +259,44 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
-  color: var(--text-muted);
+  color: var(--text-dark);
   font-size: 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+.question-card ul li span {
+  display: inline-block;
+  min-width: 90px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 6px;
+}
+
 .card-actions {
   display: flex;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 18px;
+  align-items: center;
 }
 
 .card-actions form {
-  flex: 1;
+  display: inline-block;
   margin: 0;
 }
 
 .btn {
-  flex: 1;
+  flex: none;
   border: none;
   border-radius: 12px;
-  padding: 12px 0;
+  padding: 12px 26px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  min-width: 120px;
+  text-align: center;
 }
 
 .btn-edit {
