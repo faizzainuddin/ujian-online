@@ -205,7 +205,7 @@ body {
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 36px 60px;
   max-width: 1020px;
   margin: 0 auto;
@@ -213,6 +213,12 @@ body {
 }
 .card-grid > * {
   width: 100%;
+}
+
+@media (max-width: 1080px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
 }
 
 .empty-state-card {
