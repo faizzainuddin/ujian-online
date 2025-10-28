@@ -18,7 +18,7 @@
           [
               'title' => 'Manajemen Soal',
               'icon' => asset('assets/img/icon-question.svg'),
-              'url' => '#',
+              'url' => route('teacher.questions.index'),
           ],
           [
               'title' => 'Jadwalkan Ujian',
