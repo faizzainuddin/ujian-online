@@ -73,8 +73,6 @@ class TeacherQuestionController extends Controller
                     ],
                 ],
             ];
-        }
-
             $meta = [
                 'subject' => $questionSet['title'],
                 'exam_type' => $questionSet['exam_type'],
