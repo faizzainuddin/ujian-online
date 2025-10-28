@@ -21,3 +21,7 @@ Route::middleware('admin.auth')->group(function () {
         Route::delete('/admin/users/{role}/{id}', 'destroy')->name('admin.users.destroy');
     });
 });
+
+Route::middleware('teacher.auth')->group(function () {
+    Route::view('/guru/dashboard', 'guru.dashboard')->name('teacher.dashboard');
+});

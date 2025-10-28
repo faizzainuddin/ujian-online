@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Guru;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,9 @@ class AdminAuthController extends Controller
     {
         if ($request->session()->get('admin_logged_in')) {
             return redirect()->route('admin.dashboard');
+        }
+        if ($request->session()->get('teacher_logged_in')) {
+            return redirect()->route('teacher.dashboard');
         }
 
         return view('auth.login');
@@ -35,6 +39,21 @@ class AdminAuthController extends Controller
                 ->withErrors(['captcha' => 'Kode keamanan tidak sesuai.']);
         }
 
+        $teacher = Guru::where('username', $validated['username'])->first();
+        if ($teacher && Hash::check($validated['password'], $teacher->password)) {
+            $request->session()->forget(['admin_logged_in', 'admin']);
+            $request->session()->put('teacher_logged_in', true);
+            $request->session()->put('teacher', [
+                'id' => $teacher->guru_id,
+                'username' => $teacher->username,
+                'name' => $teacher->nama_guru,
+                'role' => 'Teacher',
+                'initials' => $this->generateInitials($teacher->nama_guru),
+            ]);
+
+            return redirect()->route('teacher.dashboard');
+        }
+
         $admin = Admin::where('username', $validated['username'])->first();
 
         if (! $admin || ! Hash::check($validated['password'], $admin->password)) {
@@ -43,6 +62,7 @@ class AdminAuthController extends Controller
                 ->withErrors(['username' => 'Username atau password salah.']);
         }
 
+        $request->session()->forget(['teacher_logged_in', 'teacher']);
         $request->session()->put('admin_logged_in', true);
         $request->session()->put('admin', [
             'id' => $admin->admin_id,
@@ -57,10 +77,10 @@ class AdminAuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
-        $request->session()->forget(['admin_logged_in', 'admin']);
+        $request->session()->forget(['admin_logged_in', 'admin', 'teacher_logged_in', 'teacher']);
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('status', 'Anda telah keluar dari sesi admin.');
+        return redirect()->route('login')->with('status', 'Anda telah keluar dari sesi.');
     }
 
     private function generateInitials(string $name): string
