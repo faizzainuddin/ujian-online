@@ -8,6 +8,7 @@ Ringan, cepat, dan ramah admin untuk kebutuhan ujian sekolah.
 
 [![PHP](https://img.shields.io/badge/PHP-%5E8.2-777bb4?logo=php)](https://www.php.net/)
 [![Laravel](https://img.shields.io/badge/Laravel-12.x-ff2d20?logo=laravel)](https://laravel.com)
+[![CI](https://github.com/faizzainuddin/ujian-online/actions/workflows/ci.yml/badge.svg)](https://github.com/faizzainuddin/ujian-online/actions/workflows/ci.yml)
 [![Stars](https://img.shields.io/github/stars/faizzainuddin/ujian-online?style=social)](https://github.com/faizzainuddin/ujian-online/stargazers)
 [![Issues](https://img.shields.io/github/issues/faizzainuddin/ujian-online)](https://github.com/faizzainuddin/ujian-online/issues)
 [![Last commit](https://img.shields.io/github/last-commit/faizzainuddin/ujian-online)](https://github.com/faizzainuddin/ujian-online/commits/main)
