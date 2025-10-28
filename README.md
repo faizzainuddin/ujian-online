@@ -1,61 +1,210 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<img src="public/assets/img/trustexam-illustration.svg" alt="TrustExam" height="120" />
 
-## About Laravel
+# TrustExam — Ujian Online (Laravel 12)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ringan, cepat, dan ramah admin untuk kebutuhan ujian sekolah.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[![PHP](https://img.shields.io/badge/PHP-%5E8.2-777bb4?logo=php)](https://www.php.net/)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-ff2d20?logo=laravel)](https://laravel.com)
+[![Stars](https://img.shields.io/github/stars/faizzainuddin/ujian-online?style=social)](https://github.com/faizzainuddin/ujian-online/stargazers)
+[![Issues](https://img.shields.io/github/issues/faizzainuddin/ujian-online)](https://github.com/faizzainuddin/ujian-online/issues)
+[![Last commit](https://img.shields.io/github/last-commit/faizzainuddin/ujian-online)](https://github.com/faizzainuddin/ujian-online/commits/main)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+## Daftar Isi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Gambaran Umum
+- Fitur
+- Prasyarat
+- Instalasi Cepat
+- Kredensial Default
+- Rute Utama
+- Tech Stack
+- Struktur Direktori
+- Troubleshooting
+- Roadmap
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Gambaran Umum
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+TrustExam adalah aplikasi web Ujian Online untuk kebutuhan pengelolaan ujian di sekolah. Fokus pada kesederhanaan: login admin, dashboard ringan, dan pondasi tabel inti siap dikembangkan.
 
-## Laravel Sponsors
+## Fitur
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- 🔐 Autentikasi admin berbasis sesi (dashboard di `/admin`).
+- 🧱 Middleware `admin.auth` untuk proteksi halaman dan tombol logout.
+- 🔤 Captcha statis (demo) untuk form login.
+- 🌱 Seeder admin default untuk akses awal.
+- 🗄️ Migrasi tabel inti: admin, guru, siswa, ujian, soal, hasil, jawaban.
 
-### Premium Partners
+## Prasyarat
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- PHP `^8.2` dan Composer 2
+- MySQL/MariaDB (contoh `.env` gunakan port `3307` via XAMPP)
+- Node.js 18+ dan npm (opsional untuk Vite/Tailwind)
 
-## Contributing
+## Instalasi Cepat
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Clone & masuk folder
 
-## Code of Conduct
+```bash
+git clone https://github.com/faizzainuddin/ujian-online.git
+cd ujian-online
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Pasang dependency & siapkan env
 
-## Security Vulnerabilities
+```bash
+composer install
+cp .env.example .env   # Windows: copy .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Konfigurasi database di `.env`
 
-## License
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3307
+DB_DATABASE=ujian_sekolah
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. Migrasi + seeder
+
+```bash
+php artisan migrate --seed
+```
+
+5. (Opsional) Asset dev/build
+
+```bash
+npm install
+npm run dev   # atau npm run build
+```
+
+6. Jalankan
+
+```bash
+php artisan serve
+# buka http://127.0.0.1:8000
+```
+
+## Kredensial Default
+
+- Username: `admin`
+- Password: `password123`
+- Captcha demo: `vm9fe` (hard-coded di halaman login)
+
+> Disarankan segera ganti password dan gunakan captcha dinamis untuk produksi.
+
+## Rute Utama
+
+- `/` — Halaman login
+- `/login` — Submit login (POST)
+- `/logout` — Logout (POST)
+- `/admin` — Dashboard admin (terproteksi)
+
+## Tech Stack
+
+- Backend: Laravel 12 (PHP ^8.2)
+- Frontend tooling: Vite, Tailwind CSS 4 (opsional)
+- DB/Queue: MySQL/MariaDB, Queue driver `database`
+
+## Struktur Direktori
+
+- `resources/views/auth/login.blade.php` — Halaman login
+- `resources/views/admin/dashboard.blade.php` — Dashboard admin
+- `app/Http/Controllers/AdminAuthController.php` — Controller auth admin
+- `app/Http/Middleware/AdminAuthenticated.php` — Middleware sesi admin
+- `app/Models/Admin.php` — Model admin
+- `database/migrations/*create_*_table.php` — Migrasi tabel
+- `database/seeders/AdminSeeder.php` — Seeder admin default
+
+## Troubleshooting
+
+- Tidak bisa konek DB: pastikan port MySQL di `.env` (default contoh `3307` untuk XAMPP) sesuai dengan layanan Anda.
+- Error migrasi: cek izin user DB, atau jalankan `php artisan migrate:fresh --seed` untuk reset lokal.
+- Aset tidak termuat: jalankan `npm run dev` (pengembangan) atau `npm run build` (produksi) lalu refresh cache browser.
+
+## Roadmap
+
+- [ ] Captcha dinamis (bukan hard-coded)
+- [ ] Manajemen pengguna (guru/siswa) dari dashboard
+- [ ] Modul bank soal & penilaian otomatis
+- [ ] Rekap hasil ujian (export CSV/PDF)
+
+# Ujian Sekolah / Ujian Online (Laravel)
+
+Proyek Laravel untuk aplikasi ujian dengan autentikasi berbasis peran (Admin/Guru/Siswa) dan modul manajemen data. Dokumen ini menjelaskan cara setup, menjalankan secara lokal, serta catatan penting untuk deployment.
+
+## Prasyarat
+- PHP 8.2+ dan Composer
+- Node.js 18+ dan npm
+- MySQL/MariaDB (XAMPP/WAMP juga boleh)
+
+## Setup Cepat (Lokal)
+```bash
+# 1) Masuk ke folder proyek
+cd C:\xampp\htdocs\ujian-sekolah
+
+# 2) Pasang dependensi PHP
+composer install
+
+# 3) Salin env dan generate APP_KEY
+copy .env.example .env   # di PowerShell/CMD Windows
+php artisan key:generate
+
+# 4) Konfigurasi database di .env
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306 (atau port MySQL Anda)
+# DB_DATABASE=ujian_online
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# 5) Migrasi (opsional: seed data awal jika tersedia)
+php artisan migrate --seed
+
+# 6) Pasang dependensi frontend & build asset Vite
+npm install
+npm run build   # atau: npm run dev (mode pengembangan)
+
+# 7) Jalankan server pengembangan Laravel
+php artisan serve   # http://127.0.0.1:8000
+```
+
+## Kredensial Demo
+- Lihat file seeder untuk kredensial default: `database/seeders/AdminSeeder.php` dan `database/seeders/DatabaseSeeder.php`.
+- Jika tidak yakin, Anda dapat membuat akun manual via Tinker:
+```php
+php artisan tinker
+>>> use Illuminate\Support\Facades\Hash; use App\Models\User;
+>>> User::updateOrCreate(['username'=>'admin'], ['name'=>'Admin System','password'=>Hash::make('password'),'role'=>'ADMIN']);
+```
+
+## Perintah Berguna
+- Bersihkan cache/config/view: `php artisan cache:clear && php artisan config:clear && php artisan view:clear`
+- Tampilkan daftar route: `php artisan route:list`
+- Ulang migrasi + seed: `php artisan migrate:fresh --seed`
+- Menjalankan Vite dev server: `npm run dev`
+
+## Struktur Direktori Singkat
+- `app/` – kode aplikasi (Controllers, Models, Middleware)
+- `resources/views/` – Blade templates (mis. login, dashboard admin)
+- `public/` – aset publik dan build Vite (`public/build`)
+- `database/migrations` – skema tabel; `database/seeders` – data contoh
+
+## Tips Deployment (ringkas)
+- Set `.env` produksi (APP_KEY, APP_ENV=production, APP_DEBUG=false)
+- Jalankan: `php artisan migrate --force`
+- Build asset: `npm ci && npm run build`
+- Optimasi: `php artisan optimize`
+- Pastikan `storage/` dan `bootstrap/cache/` writable
+
+## Catatan
+- Jangan commit file rahasia: `.env`, kredensial, dll. Gunakan `.env.example` sebagai template.
+- Jika menggunakan sesi/cache berbasis database, jalankan migrasi tabel terkait (`session`, `cache`, dll) atau ubah driver ke `file` di `.env`.
