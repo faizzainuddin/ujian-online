@@ -13,6 +13,7 @@ Route::middleware('admin.auth')->group(function () {
 
     Route::controller(AdminUserController::class)->group(function () {
         Route::get('/admin/users', 'index')->name('admin.users.index');
+        Route::get('/admin/users/data', 'data')->name('admin.users.data');
         Route::get('/admin/users/create', 'create')->name('admin.users.create');
         Route::post('/admin/users', 'store')->name('admin.users.store');
     });

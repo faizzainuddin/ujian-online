@@ -48,7 +48,7 @@
             </div>
             <p class="card-title">Kelola Akun Pengguna</p>
           </a>
-          <a href="#" class="card">
+          <a href="{{ route('admin.users.data') }}" class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M6 3h9a5 5 0 0 1 5 5v2h-2V8a3 3 0 0 0-3-3H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h11v2H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Zm5 6h10v2H11Zm0 4h10v2H11Zm0 4h10v2H11Z" />
