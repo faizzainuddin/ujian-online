@@ -15,15 +15,7 @@ class TeacherQuestionController extends Controller
             'initials' => 'IS',
         ]);
 
-        $questionSets = collect(range(1, 6))->map(function (int $i) {
-            return [
-                'id' => $i,
-                'title' => 'Bahasa Indonesia',
-                'exam_type' => $i % 2 === 0 ? 'UAS Semester '.ceil($i / 2) : 'UTS Semester '.ceil($i / 2),
-                'class' => 'Kelas 12',
-                'teacher' => 'Rini Wulandari, S.Pd',
-            ];
-        });
+        $questionSets = collect();
 
         return view('guru.questions.index', compact('teacher', 'questionSets'));
     }
