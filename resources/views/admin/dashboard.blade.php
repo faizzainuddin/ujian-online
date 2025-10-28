@@ -39,7 +39,7 @@
           Selamat datang, <span>{{ $admin['name'] }}</span>
         </h1>
         <div class="card-grid">
-          <a href="#" class="card">
+          <a href="{{ route('admin.users.index') }}" class="card">
             <div class="card-icon">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 12a5 5 0 1 0-5-5 5.006 5.006 0 0 0 5 5Zm0-8a3 3 0 1 1-3 3 3.004 3.004 0 0 1 3-3Zm6.5 10H17a5.975 5.975 0 0 0-10 0H5.5A3.5 3.5 0 0 0 2 17.5v1A2.5 2.5 0 0 0 4.5 21h15A2.5 2.5 0 0 0 22 18.5v-1A3.5 3.5 0 0 0 18.5 14Zm1.5 4.5a.5.5 0 0 1-.5.5h-15a.5.5 0 0 1-.5-.5v-1A1.5 1.5 0 0 1 5.5 16h1.247A3.976 3.976 0 0 1 12 14a3.976 3.976 0 0 1 5.253 2H18.5a1.5 1.5 0 0 1 1.5 1.5Z" />
