@@ -1,0 +1,235 @@
+.dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: #e9f4ff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #123456;
+}
+
+.brand-ribbon {
+  background: linear-gradient(90deg, #b9dafe 0%, #d8eaff 100%);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-ribbon img {
+  height: 48px;
+  width: auto;
+}
+
+.topbar {
+  background: #d8eaff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(18, 52, 86, 0.08);
+  box-shadow: 0 2px 6px rgba(13, 38, 59, 0.1);
+}
+
+.greeting .subtitle {
+  margin: 0;
+  color: #3f6ea3;
+  font-weight: 600;
+}
+
+.greeting h1 {
+  margin: 0.2rem 0;
+  font-size: 2rem;
+  color: #0b305b;
+}
+
+.student-class {
+  background: rgba(41, 109, 214, 0.12);
+  color: #296dd6;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-meta {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 0.95rem;
+  color: #123456;
+}
+
+.profile-role {
+  color: #3f6ea3;
+  font-size: 0.85rem;
+}
+
+.avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #296dd6;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.logout-button {
+  border: none;
+  background: #f15959;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+  background: #d94848;
+}
+
+.content {
+  padding: 2.5rem 3rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.quick-card {
+  background: #f7fbff;
+  border-radius: 18px;
+  padding: 1.8rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 8px 16px rgba(20, 66, 114, 0.08);
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.quick-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(41, 109, 214, 0.4);
+}
+
+.quick-card .icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: rgba(41, 109, 214, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-card .icon img {
+  width: 28px;
+  height: 28px;
+}
+
+.quick-card h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #0b305b;
+}
+
+.quick-card p {
+  margin: 0;
+  color: #4c6c8d;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.announcement {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 24px rgba(20, 66, 114, 0.12);
+  border: 1px solid rgba(18, 52, 86, 0.08);
+}
+
+.announcement header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #0b305b;
+  margin-bottom: 1.4rem;
+}
+
+.announcement header h2 {
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.announcement .bell {
+  font-size: 1.5rem;
+}
+
+.announcement article {
+  background: rgba(255, 224, 138, 0.18);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 204, 62, 0.32);
+  line-height: 1.6;
+  color: #484218;
+}
+
+.announcement h3 {
+  margin-top: 0;
+  color: #e08c07;
+  font-size: 1.15rem;
+}
+
+.announcement h4 {
+  margin-bottom: 0.6rem;
+  color: #1e4a7a;
+}
+
+.announcement ul {
+  padding-left: 1.2rem;
+  margin: 0 0 1rem 0;
+  color: #3f3a1f;
+}
+
+.announcement .footer {
+  margin: 0;
+  color: #42494f;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .profile {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .content {
+    padding: 2rem 1.5rem 2.5rem;
+  }
+
+  .announcement {
+    padding: 1.5rem;
+  }
+}

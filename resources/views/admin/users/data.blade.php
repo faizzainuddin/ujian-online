@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ config('app.name', 'TrustExam') }} — Kelola Akun Pengguna</title>
+    <title>{{ config('app.name', 'TrustExam') }} — Kelola Data Pengguna</title>
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/users.css') }}" />
   </head>
@@ -48,7 +48,7 @@
           @endif
 
           <div class="toolbar">
-            <form class="filter-group" action="{{ route('admin.users.index') }}" method="get">
+            <form class="filter-group" action="{{ route('admin.users.data') }}" method="get">
               <label for="roleSelect">Peran Pengguna</label>
               <select id="roleSelect" name="role" class="select" aria-label="Pilih peran">
                 @foreach (['Siswa', 'Guru', 'Admin'] as $roleOption)
@@ -57,7 +57,6 @@
               </select>
               <button class="btn btn-primary" type="submit">Tampilkan</button>
             </form>
-            <a class="btn btn-success" href="{{ route('admin.users.create', ['role' => $activeRole]) }}">+ Tambah</a>
           </div>
 
           <div class="table-wrapper">
@@ -72,23 +71,18 @@
               <tbody>
                 @forelse ($tableRows as $row)
                   <tr>
-                    <td>{{ $row['no'] }}</td>
-                    <td>{{ $row['name'] }}</td>
-                    <td>{{ $row['username'] }}</td>
-                    <td>{{ $row['password'] }}</td>
-                    <td>{{ $row['role'] }}</td>
-                    <td>
-                      <span class="status {{ $row['status_class'] ?? 'aktif' }}">{{ $row['status'] ?? '-' }}</span>
-                    </td>
+                    @foreach ($row['data'] as $value)
+                      <td>{{ $value }}</td>
+                    @endforeach
                     <td>
                       <div class="actions">
-                        <a class="icon-btn icon-edit" title="Ubah" href="{{ route('admin.users.edit', ['role' => $row['role'], 'id' => $row['id'], 'redirect' => 'index']) }}">
+                        <a class="icon-btn icon-edit" title="Ubah" href="{{ route('admin.users.edit', ['role' => $activeRole, 'id' => $row['id'], 'redirect' => 'data']) }}">
                           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>
                         </a>
-                        <form action="{{ route('admin.users.destroy', ['role' => $row['role'], 'id' => $row['id']]) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                        <form action="{{ route('admin.users.destroy', ['role' => $activeRole, 'id' => $row['id']]) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
                           @csrf
                           @method('DELETE')
-                          <input type="hidden" name="redirect" value="index" />
+                          <input type="hidden" name="redirect" value="data" />
                           <button class="icon-btn icon-delete" title="Hapus" type="submit">
                             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12v2H6zm2 3h8l-1 10H9L8 10zm3-6h2l1 1h4v2H4V5h4l1-1z"/></svg>
                           </button>
@@ -106,7 +100,8 @@
           </div>
         </div>
       </main>
+
       <button type="button" class="floating-button">N</button>
     </div>
   </body>
-  </html>
+</html>
