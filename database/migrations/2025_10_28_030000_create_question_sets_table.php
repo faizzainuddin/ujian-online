@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('question_sets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('teacher_id')->nullable();
+            $table->unsignedInteger('teacher_id')->nullable();
             $table->string('subject', 120);
             $table->string('exam_type', 120);
             $table->string('semester', 60);
