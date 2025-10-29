@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TeacherQuestionController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,8 @@ Route::middleware('teacher.auth')->group(function () {
             Route::get('/{questionSet}/edit', 'builder')->name('edit');
             Route::delete('/{questionSet}', 'destroy')->name('destroy');
         });
+});
+
+Route::middleware('student.auth')->group(function () {
+    Route::get('/siswa/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
 });
