@@ -1,0 +1,259 @@
+:root {
+  --surface: #ffffff;
+  --bg-light: #eaf5ff;
+  --card-border: rgba(181, 199, 239, 0.65);
+  --primary: #2f5fd7;
+  --primary-light: #4f78e9;
+  --text-dark: #1f2a44;
+  --text-muted: #5c6883;
+  --warning-bg: #fde4a1;
+  --warning-border: #f7c75b;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+  background: linear-gradient(180deg, var(--bg-light) 0%, #f6fbff 80%);
+  color: var(--text-dark);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #cfe4ff;
+  padding: 24px 36px;
+  box-shadow: 0 4px 18px rgba(57, 110, 206, 0.1);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--primary);
+}
+
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 12px 24px rgba(47, 95, 215, 0.12);
+}
+
+.brand-logo img {
+  width: 34px;
+  height: 34px;
+}
+
+.teacher-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--text-muted);
+}
+
+.teacher-info form {
+  margin: 0;
+}
+
+.logout-button {
+  border: none;
+  background: rgba(47, 95, 215, 0.18);
+  color: var(--primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background: rgba(47, 95, 215, 0.32);
+  transform: translateY(-1px);
+}
+
+.logout-button:focus {
+  outline: 2px solid rgba(47, 95, 215, 0.4);
+}
+
+.teacher-info .name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.teacher-info .role-tag {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+}
+
+.content {
+  flex: 1 1 auto;
+  padding: 48px 40px 60px;
+}
+
+.welcome {
+  margin: 0 0 36px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 28px;
+}
+
+.panel-card {
+  grid-column: span 2;
+  background: var(--surface);
+  border-radius: 28px;
+  border: 2px solid var(--card-border);
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  text-decoration: none;
+  background: #f9fbff;
+  border-radius: 22px;
+  border: 2px solid rgba(181, 199, 239, 0.5);
+  padding: 38px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-dark);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(47, 95, 215, 0.5);
+  box-shadow: 0 20px 35px rgba(47, 95, 215, 0.15);
+}
+
+.feature-card .icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  background: rgba(47, 95, 215, 0.14);
+  display: grid;
+  place-items: center;
+}
+
+.feature-card .icon img {
+  width: 36px;
+  height: 36px;
+}
+
+.feature-card .title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.announcement-card {
+  background: var(--surface);
+  border-radius: 28px;
+  border: 2px solid var(--card-border);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.announcement-card .header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 18px;
+}
+
+.announcement-card .body {
+  background: var(--warning-bg);
+  border: 2px solid var(--warning-border);
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #5b3d04;
+  font-size: 14px;
+}
+
+.announcement-card .body h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #3c2a02;
+}
+
+.announcement-card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1f2a44;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  box-shadow: 0 12px 24px rgba(31, 42, 68, 0.35);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-card {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 620px) {
+  .content {
+    padding: 36px 22px 48px;
+  }
+
+  .welcome {
+    font-size: 24px;
+  }
+}
