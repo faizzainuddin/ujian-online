@@ -7,6 +7,7 @@ use App\Models\Guru;
 use App\Models\Siswa;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class AdminUserController extends Controller
@@ -77,7 +78,7 @@ class AdminUserController extends Controller
                 ]);
 
                 if (! empty($validated['password'])) {
-                    $entity->password = $validated['password'];
+                    $entity->password = Hash::make($validated['password']);
                 }
 
                 $entity->save();
@@ -96,7 +97,7 @@ class AdminUserController extends Controller
                 ]);
 
                 if (! empty($validated['password'])) {
-                    $entity->password = $validated['password'];
+                    $entity->password = Hash::make($validated['password']);
                 }
 
                 $entity->save();
@@ -131,8 +132,8 @@ class AdminUserController extends Controller
                 ]);
 
                 if (! empty($validated['password'])) {
-                    $entity->password = $validated['password'];
-                    $entity->password_hint = $validated['password'];
+                    $entity->password = Hash::make($validated['password']);
+                    $entity->password_hint = null;
                 }
 
                 $entity->save();
@@ -198,7 +199,7 @@ class AdminUserController extends Controller
 
                 Guru::create([
                     'username' => $validated['username'],
-                    'password' => $validated['password'],
+                    'password' => Hash::make($validated['password']),
                     'nama_guru' => $validated['nama_guru'],
                     'matapelajaran' => $validated['matapelajaran'],
                     'admin_id' => $admin['id'],
@@ -215,7 +216,7 @@ class AdminUserController extends Controller
 
                 Admin::create([
                     'username' => $validated['username'],
-                    'password' => $validated['password'],
+                    'password' => Hash::make($validated['password']),
                     'nama_admin' => $validated['nama_admin'],
                 ]);
 
@@ -239,8 +240,8 @@ class AdminUserController extends Controller
                 Siswa::create([
                     'nis' => $validated['nis'],
                     'username' => $validated['username'],
-                    'password' => $validated['password'],
-                    'password_hint' => $validated['password'],
+                    'password' => Hash::make($validated['password']),
+                    'password_hint' => null,
                     'nama_siswa' => $validated['nama_siswa'],
                     'jenis_kelamin' => $validated['jenis_kelamin'],
                     'kelas' => $validated['kelas'],
