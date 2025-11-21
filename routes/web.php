@@ -10,6 +10,10 @@ Route::get('/', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
+Route::get('/captcha/refresh', function () {
+    return captcha_src('flat');
+})->name('captcha.refresh');
+
 Route::middleware('admin.auth')->group(function () {
     Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');
 
