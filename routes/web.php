@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TeacherQuestionController;
+use App\Http\Controllers\TeacherStudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AdminAuthController::class, 'showLoginForm'])->name('login');
@@ -43,6 +44,9 @@ Route::middleware('teacher.auth')->group(function () {
             Route::get('/{questionSet}/edit', 'builder')->name('edit');
             Route::delete('/{questionSet}', 'destroy')->name('destroy');
         });
+    
+    Route::get('/guru/siswa', [TeacherStudentController::class, 'index'])
+        ->name('teacher.students.index');
 });
 
 Route::middleware('student.auth')->group(function () {

@@ -33,7 +33,7 @@
           [
               'title' => 'Data Siswa',
               'icon' => asset('assets/img/icon-student.svg'),
-              'url' => '#',
+              'url' => route('teacher.students.index'),
           ],
       ];
     @endphp
