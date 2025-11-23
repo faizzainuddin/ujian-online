@@ -23,7 +23,7 @@
           [
               'title' => 'Jadwalkan Ujian',
               'icon' => asset('assets/img/icon-calendar.svg'),
-              'url' => '#',
+              'url' => route('teacher.schedules.index'),
           ],
           [
               'title' => 'Hasil Ujian',
