@@ -23,7 +23,7 @@
           [
               'title' => 'Jadwalkan Ujian',
               'icon' => asset('assets/img/icon-calendar.svg'),
-              'url' => '#',
+              'url' => route('teacher.schedules.index'),
           ],
           [
               'title' => 'Hasil Ujian',
@@ -33,7 +33,7 @@
           [
               'title' => 'Data Siswa',
               'icon' => asset('assets/img/icon-student.svg'),
-              'url' => '#',
+              'url' => route('teacher.students.index'),
           ],
       ];
     @endphp

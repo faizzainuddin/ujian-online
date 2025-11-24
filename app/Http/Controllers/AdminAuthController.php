@@ -29,19 +29,14 @@ class AdminAuthController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
+        
         $validated = $request->validate([
             'username' => ['required', 'string', 'max:50'],
             'password' => ['required', 'string'],
-            'captcha' => ['required', 'string', 'size:5'],
+            'captcha'  => ['required', 'captcha'],
         ], [
-            'captcha.size' => 'Kode keamanan harus terdiri dari 5 karakter.',
+            'captcha.captcha' => 'Kode keamanan tidak sesuai.',
         ]);
-
-        if (strtolower($validated['captcha']) !== 'vm9fe') {
-            return back()
-                ->withInput($request->except('password'))
-                ->withErrors(['captcha' => 'Kode keamanan tidak sesuai.']);
-        }
 
         $teacher = Guru::where('username', $validated['username'])->first();
         if ($teacher && Hash::check($validated['password'], $teacher->password)) {

@@ -27,4 +27,10 @@ class QuestionSet extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->exam_type} {$this->semester} - {$this->class_level} - {$this->subject}";
+    }
+
 }
