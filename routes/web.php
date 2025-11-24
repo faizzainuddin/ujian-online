@@ -4,11 +4,18 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TeacherQuestionController;
+use App\Http\Controllers\TeacherStudentController;
+use App\Http\Controllers\TeacherScheduleController;
 use Illuminate\Support\Facades\Route;
+use Whoops\Run;
 
 Route::get('/', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+Route::get('/captcha/refresh', function () {
+    return captcha_src('flat');
+})->name('captcha.refresh');
 
 Route::middleware('admin.auth')->group(function () {
     Route::view('/admin', 'admin.dashboard')->name('admin.dashboard');
@@ -39,6 +46,17 @@ Route::middleware('teacher.auth')->group(function () {
             Route::get('/{questionSet}/edit', 'builder')->name('edit');
             Route::delete('/{questionSet}', 'destroy')->name('destroy');
         });
+    
+    Route::get('/guru/siswa', [TeacherStudentController::class, 'index'])
+        ->name('teacher.students.index');
+
+    Route::prefix('teacher')->group(function () {
+        Route::get('/jadwal', [TeacherScheduleController::class, 'index'])->name('teacher.schedules.index');
+        Route::get('/jadwal/create', [TeacherScheduleController::class, 'create'])->name('teacher.schedules.create');
+        Route::post('/jadwal/store', [TeacherScheduleController::class, 'store'])->name('teacher.schedules.store');
+        Route::delete('/jadwal/{id}', [TeacherScheduleController::class, 'destroy'])->name('teacher.schedules.destroy'); 
+    });
+
 });
 
 Route::middleware('student.auth')->group(function () {

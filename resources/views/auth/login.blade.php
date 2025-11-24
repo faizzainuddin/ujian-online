@@ -20,14 +20,15 @@
           />
         </div>
       </section>
+
       <section class="form-panel">
         <div class="form-wrapper">
           <h2>Silahkan Login</h2>
+
           @if (session('status'))
-            <div class="alert alert-status">
-              {{ session('status') }}
-            </div>
+            <div class="alert alert-status">{{ session('status') }}</div>
           @endif
+
           @if ($errors->any())
             <div class="alert alert-error" role="alert">
               <ul>
@@ -37,8 +38,10 @@
               </ul>
             </div>
           @endif
+
           <form action="{{ route('login.submit') }}" method="post">
             @csrf
+
             <div class="input-group">
               <label for="username">Username ID</label>
               <input
@@ -52,6 +55,7 @@
                 required
               />
             </div>
+
             <div class="input-group">
               <label for="password">Password</label>
               <input
@@ -67,27 +71,45 @@
                 &#128065;
               </button>
             </div>
-            <div class="captcha-display" aria-hidden="true">vm9fe</div>
+
             <div class="input-group">
               <label for="captcha">Kode Keamanan</label>
+
+              <div class="captcha-box" style="display:flex;align-items:center;gap:12px;margin-top:10px;margin-bottom:10px;">
+                <img
+                  src="{{ captcha_src('flat') }}"
+                  id="captchaImg"
+                  alt="captcha"
+                  style="border-radius:8px;border:1px solid #bcd7f5;box-shadow:0 0 5px rgba(0,0,0,0.07);"
+                />
+                <button
+                  type="button"
+                  onclick="refreshCaptcha()"
+                  style="background:#e9f4ff;border:1px solid #9ec7ef;padding:8px 10px;cursor:pointer;border-radius:8px;color:#296dd6;font-weight:bold;transition:0.2s;"
+                >
+                  ↻
+                </button>
+              </div>
+
               <input
                 type="text"
                 id="captcha"
                 name="captcha"
                 class="input-field"
-                placeholder="Masukkan Kode Diatas"
-                inputmode="text"
-                autocomplete="off"
+                placeholder="Masukkan kode di atas"
                 required
               />
             </div>
+
             <button type="submit" class="btn-submit">Login</button>
             <button type="button" class="btn-submit btn-outline">Lupa Password?</button>
+
             <p class="helper-text">Hubungi Admin jika mengalami kendala login.</p>
           </form>
         </div>
       </section>
     </div>
+
     <script>
       const togglePasswordBtn = document.querySelector(".toggle-password");
       const passwordField = document.getElementById("password");
@@ -95,11 +117,15 @@
       togglePasswordBtn?.addEventListener("click", () => {
         const isPassword = passwordField.type === "password";
         passwordField.type = isPassword ? "text" : "password";
-        togglePasswordBtn.setAttribute(
-          "aria-pressed",
-          isPassword ? "true" : "false"
-        );
+        togglePasswordBtn.setAttribute("aria-pressed", isPassword ? "true" : "false");
       });
+
+      function refreshCaptcha() {
+          document.getElementById("captchaImg").src =
+              "{{ captcha_src('flat') }}" + "?rand=" + Math.random();
+      }
+
+
     </script>
   </body>
 </html>
