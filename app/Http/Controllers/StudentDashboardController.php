@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ExamService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class StudentDashboardController extends Controller
 {
+    private ExamService $examService;
+
+    public function __construct(ExamService $examService)
+    {
+        $this->examService = $examService;
+    }
     public function index(Request $request): View
     {
         /** @var array{name:string,role:string,initials:string,class:?string} $student */
@@ -22,7 +29,7 @@ class StudentDashboardController extends Controller
                 'label' => 'Ujian',
                 'description' => 'Lihat jadwal dan kerjakan ujian yang tersedia.',
                 'icon' => asset('assets/img/icon-question.svg'),
-                'href' => '#',
+                'href' => route('student.exams'),
             ],
             [
                 'label' => 'Nilai Ujian',
@@ -47,5 +54,21 @@ class StudentDashboardController extends Controller
         ];
 
         return view('siswa.dashboard', compact('student', 'quickLinks', 'announcement'));
+    }
+
+    public function exams(Request $request): View
+    {
+        /** @var array{name:string,role:string,initials:string,class:?string} $student */
+        $student = $request->session()->get('student', [
+            'name' => 'Student',
+            'role' => 'Student',
+            'initials' => 'ST',
+            'class' => null,
+        ]);
+
+        $studentClass = $student['class'] ?? '';
+        $exams = $this->examService->getExamsForStudent($studentClass);
+
+        return view('siswa.exams', compact('student', 'exams'));
     }
 }

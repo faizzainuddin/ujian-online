@@ -8,35 +8,26 @@
   </head>
   <body>
     <div class="dashboard">
-      <aside class="brand-ribbon">
-        <img src="{{ asset('assets/img/icon-student.svg') }}" alt="Ikon Siswa" />
-      </aside>
-
       <header class="topbar">
-        <div class="greeting">
-          <p class="subtitle">Selamat datang,</p>
-          <h1>{{ $student['name'] }}</h1>
-          @if (! empty($student['class']))
-            <span class="student-class">Kelas {{ $student['class'] }}</span>
-          @endif
+        <div class="brand">
+          <span class="brand-logo">
+            <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+          </span>
+          TrustExam
         </div>
-
-        <div class="profile">
-          <div class="profile-meta">
-            <span class="profile-name">{{ $student['name'] }}</span>
-            <span class="profile-role">({{ $student['role'] }})</span>
-          </div>
+        <div class="student-info">
+          <span class="name">{{ $student['name'] }}</span>
+          <span class="role-tag">({{ $student['role'] }})</span>
           <span class="avatar-circle">{{ $student['initials'] }}</span>
           <form action="{{ route('logout') }}" method="post">
             @csrf
-            <button type="submit" class="logout-button" title="Keluar">
-              <span>Keluar</span>
-            </button>
+            <button type="submit" class="logout-button">&#10162;</button>
           </form>
         </div>
       </header>
 
       <main class="content">
+        <h1 class="welcome">Selamat datang, {{ $student['name'] }}</h1>
         <section class="quick-links">
           @foreach ($quickLinks as $link)
             <a class="quick-card" href="{{ $link['href'] }}">
