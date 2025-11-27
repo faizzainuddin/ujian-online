@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+use App\Models\QuestionSet; 
+use App\Models\HasilUjian;   
+use App\Models\Ujian;
+
 class StudentDashboardController extends Controller
 {
     public function index(Request $request): View
@@ -28,7 +32,7 @@ class StudentDashboardController extends Controller
                 'label' => 'Nilai Ujian',
                 'description' => 'Pantau nilai ujian yang sudah kamu selesaikan.',
                 'icon' => asset('assets/img/icon-result.svg'),
-                'href' => '#',
+                'href' => route('student.nilai'),
             ],
         ];
 
@@ -48,4 +52,66 @@ class StudentDashboardController extends Controller
 
         return view('siswa.dashboard', compact('student', 'quickLinks', 'announcement'));
     }
+   public function nilai(Request $request, ?string $semester = null): View
+{
+    $user = auth()->user();
+
+    $defaultName = $user ? $user->nama_siswa : 'Student';
+    $defaultInitials = $user ? strtoupper(substr($user->nama_siswa, 0, 2)) : 'ST';
+    $defaultClass = $user ? $user->kelas : null;
+    $defaultSiswaId = $user ? $user->siswa_id : 1;
+    
+    $student = $request->session()->get('student', [
+        'name' => $defaultName,
+        'role' => 'Siswa',
+        'initials' => $defaultInitials,
+        'class' => $defaultClass,
+    ]);
+    
+    $siswaId = $request->session()->get('siswa_id', $defaultSiswaId);
+    
+    $availableSemesters = QuestionSet::distinct('semester')->pluck('semester')->sort()->toArray();
+    
+    $activeSemester = $semester ?: ($availableSemesters[0] ?? null);
+
+    $results = [];
+
+    if ($activeSemester) {
+        
+        $resultsData = HasilUjian::select([
+                'question_sets.subject',
+                'question_sets.exam_type',
+                'hasil_ujian.nilai',
+            ])
+            ->join('ujian', 'hasil_ujian.ujian_id', '=', 'ujian.ujian_id')
+            ->join('question_sets', 'ujian.question_set_id', '=', 'question_sets.id') 
+            ->where('hasil_ujian.siswa_id', $siswaId)
+            ->where('question_sets.semester', $activeSemester)
+            ->get();
+        
+        $results = $resultsData->groupBy('exam_type') 
+            ->map(function ($items) {
+                return $items->map(function ($item, $index) {
+                    $kkm = 75;
+                    $isLulus = $item->nilai >= $kkm;
+                    
+                    return [
+                        'no' => $index + 1,
+                        'subject' => $item->subject,
+                        'nilai' => (int)$item->nilai,
+                        'kkm' => $kkm, 
+                        'status' => $isLulus ? 'Lulus' : 'Tidak Lulus',
+                    ];
+                })->values();
+            })
+            ->toArray();
+    }
+    
+    $results['UTS'] = $results['UTS'] ?? [];
+    $results['UAS'] = $results['UAS'] ?? [];
+    
+    return view('siswa.nilai', compact('student', 'results', 'availableSemesters', 'activeSemester'));
 }
+}
+
+

@@ -39,7 +39,7 @@
       <main class="content">
         <section class="quick-links">
           @foreach ($quickLinks as $link)
-            <a class="quick-card" href="{{ $link['href'] }}">
+             <a class="quick-card" href="{{ $link['href'] }}">
               <span class="icon">
                 <img src="{{ $link['icon'] }}" alt="" />
               </span>

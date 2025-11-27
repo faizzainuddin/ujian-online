@@ -61,4 +61,8 @@ Route::middleware('teacher.auth')->group(function () {
 
 Route::middleware('student.auth')->group(function () {
     Route::get('/siswa/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::get('/siswa/nilai/{semester?}', [StudentDashboardController::class, 'nilai'])
+->name('student.nilai');
 });
+
+
