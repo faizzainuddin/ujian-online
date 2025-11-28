@@ -9,6 +9,10 @@ class QuestionSet extends Model
 {
     use HasFactory;
 
+    protected $table = 'question_sets';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
+
     protected $fillable = [
         'teacher_id',
         'subject',
@@ -33,9 +37,13 @@ class QuestionSet extends Model
         return $this->hasMany(ExamSchedule::class);
     }
 
+    public function ujians()
+    {
+        return $this->hasMany(Ujian::class, 'question_set_id', 'id');
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->exam_type} {$this->semester} - {$this->class_level} - {$this->subject}";
     }
-
 }
