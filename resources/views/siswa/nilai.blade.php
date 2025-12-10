@@ -13,7 +13,12 @@
 
         <header class="topbar">
           <div>
-
+            <aside class="brand-ribbon-nilai">
+                <span class="brand-ribbon-nilai">
+                <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+                </span>
+                TrustExam
+            </aside>
           </div>
             <div class="profile">
                 <div class="profile-meta">
@@ -21,10 +26,10 @@
                     <span class="profile-role">({{ $student['role'] }})</span>
                 </div>
                 <span class="avatar-circle">{{ $student['initials'] }}</span>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button type="submit" class="logout-button" title="Keluar">
-                        <span>Keluar</span>
+                    &#10162;
                     </button>
                 </form>
             </div>
