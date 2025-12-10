@@ -4,28 +4,91 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
   overflow-x: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #e9f4ff;
+  color: #123456;
+}
+
+.page,
+.dashboard {
+  min-height: 100vh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #eaf5ff 0%, #f6fbff 80%);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f2a44;
+}
+
+.brand-ribbon {
+  background: linear-gradient(90deg, #b9dafe 0%, #d8eaff 100%);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #2f5fd7;
+  letter-spacing: 0.4px;
+  border-radius: 7px 7px 0 0;
+}
+
+.brand-ribbon img {
+  height: 42px;
+  width: auto;
+  border-radius: 50%;
+}
+
+.brand-ribbon span.brand-ribbon {
+  display: flex;
+  align-items: center;
+}
+
+.brand-ribbon-nilai {
+  background: linear-gradient(90deg, #b9dafe 0%, #d8eaff 100%);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #2f5fd7;
+  letter-spacing: 0.4px;
+  border-radius: 7px 7px 0 0;
+}
+
+.brand-ribbon-nilai img {
+  height: 42px;
+  width: auto;
+  border-radius: 50%;
+}
+
+.brand-ribbon-nilai span.brand-ribbon {
+  display: flex;
+  align-items: center;
 }
 
 .topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #cfe4ff;
-  padding: 24px 36px;
-  box-shadow: 0 4px 18px rgba(57, 110, 206, 0.1);
+  background: #d8eaff;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(18, 52, 86, 0.08);
+  box-shadow: 0 2px 6px rgba(13, 38, 59, 0.1);
 }
 
 .brand {
@@ -52,6 +115,26 @@ body {
   height: 34px;
 }
 
+.greeting .subtitle {
+  margin: 0;
+  color: #3f6ea3;
+  font-weight: 600;
+}
+
+.greeting h1 {
+  margin: 0.2rem 0;
+  font-size: 2rem;
+  color: #0b305b;
+}
+
+.student-class {
+  background: rgba(41, 109, 214, 0.12);
+  color: #296dd6;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+}
+
 .student-info {
   display: flex;
   align-items: center;
@@ -73,14 +156,34 @@ body {
   font-weight: 500;
 }
 
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-meta {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 0.95rem;
+  color: #123456;
+}
+
+.profile-role {
+  color: #3f6ea3;
+  font-size: 0.85rem;
+}
+
 .avatar-circle {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #2f5fd7;
   color: #fff;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 600;
 }
 
@@ -109,8 +212,11 @@ body {
 
 .content {
   flex: 1 1 auto;
-  padding: 48px 40px 60px;
+  padding: 2.5rem 3rem 3.5rem;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .welcome {

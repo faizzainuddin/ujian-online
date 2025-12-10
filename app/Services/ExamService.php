@@ -13,21 +13,24 @@ use Illuminate\Support\Collection;
 class ExamService
 {
     /**
-     * Mengambil daftar ujian untuk siswa berdasarkan kelas
+     * Mengambil daftar ujian untuk siswa berdasarkan kelas (jika diset)
      * 
-     * @param string $studentClass Nama kelas siswa (contoh: "X IPA 1")
+     * @param string|null $studentClass Nama kelas siswa (contoh: "X IPA 1")
      * @return Collection Koleksi data ujian yang sudah ditransformasi
      */
-    public function getExamsForStudent(string $studentClass): Collection
+    public function getExamsForStudent(?string $studentClass = null): Collection
     {
         // Ambil jadwal ujian dari database dengan relasi questionSet dan teacher
-        // Filter berdasarkan kelas, urutkan berdasarkan tanggal dan waktu mulai
-        return ExamSchedule::with(['questionSet.teacher'])
-            ->where('class', $studentClass)
+        // Filter berdasarkan kelas jika ada, urutkan berdasarkan tanggal dan waktu mulai
+        $query = ExamSchedule::with(['questionSet.teacher'])
             ->orderBy('date_start')
-            ->orderBy('time_start')
-            ->get()
-            ->map(fn($schedule) => $this->mapToExamData($schedule));
+            ->orderBy('time_start');
+
+        if (! empty($studentClass)) {
+            $query->where('class', $studentClass);
+        }
+
+        return $query->get()->map(fn($schedule) => $this->mapToExamData($schedule));
     }
 
     /**

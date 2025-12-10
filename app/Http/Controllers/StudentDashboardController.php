@@ -52,7 +52,7 @@ class StudentDashboardController extends Controller
         $announcement = [
             'title' => 'Pengumuman Ujian Akhir Semester (UAS)',
             'body' => 'Diberitahukan kepada seluruh siswa kelas X, XI, dan XII bahwa Ujian Akhir Semester (UAS) '
-                .'akan dilaksanakan mulai Senin, 24 Juni 2025 hingga Jumat, 28 Juni 2025 secara online melalui platform TrustExam.',
+                .'akan dilaksanakan mulai Senin, 5 januari 2026 hingga Jumat, 9 januari 2026 secara online melalui platform TrustExam.',
             'guidelines' => [
                 'Siswa wajib login 15 menit sebelum ujian dimulai.',
                 'Setiap mata pelajaran memiliki batas waktu yang telah ditentukan.',
@@ -68,16 +68,27 @@ class StudentDashboardController extends Controller
 
     public function exams(Request $request): View
     {
+        $user = auth()->user();
+
+        $defaultName = $user ? $user->nama_siswa : 'Student';
+        $defaultInitials = $user ? strtoupper(substr($user->nama_siswa, 0, 2)) : 'ST';
+        $defaultClass = $user ? $user->kelas : null;
+
         /** @var array{name:string,role:string,initials:string,class:?string} $student */
         $student = $request->session()->get('student', [
-            'name' => 'Student',
+            'name' => $defaultName,
             'role' => 'Student',
-            'initials' => 'ST',
-            'class' => null,
+            'initials' => $defaultInitials,
+            'class' => $defaultClass,
         ]);
 
-        $studentClass = $student['class'] ?? '';
+        $studentClass = $student['class'] ?? $defaultClass ?? null;
         $exams = $this->examService->getExamsForStudent($studentClass);
+
+        // Jika kelas tidak terisi atau tidak ada ujian untuk kelas tersebut, tampilkan semua jadwal sebagai fallback
+        if ($exams->isEmpty()) {
+            $exams = $this->examService->getExamsForStudent();
+        }
 
         return view('siswa.exams', compact('student', 'exams'));
     }
