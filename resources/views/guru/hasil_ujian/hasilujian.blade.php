@@ -36,8 +36,6 @@
       <main class="content">
         <a href="{{ route('teacher.dashboard') }}" class="back-link">&#8592; Kembali ke Dashboard</a>
         <h2 style="margin-bottom: 20px;">Hasil Ujian Siswa</h2>
-        
-                <!-- Filter Dropdown Horizontal -->
         <form method="GET" action="{{ route('teacher.results') }}" style="display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px;">
       <div class = "container-filter-hasilujian-teacher">
           <div class="position">
@@ -50,19 +48,17 @@
                     @endforeach
                 </select>
             </div>
-
-            <!-- Jenis Ujian -->
+            <!-- Semester -->
             <div>
-                <label for="jenis_ujian">Jenis Ujian:</label>
-                <select name="jenis_ujian" id="jenis_ujian" class="ddown">
+                <label for="semester">Semester:</label>
+                <select name="semester" id="semester" class="ddown">
                     <option value="">-- Semua --</option>
-                    @foreach($jenisUjianList as $ju)
-                        <option value="{{ $ju }}" {{ request('jenis_ujian') == $ju ? 'selected' : '' }}>{{ $ju }}</option>
+                    @foreach($semesterList as $s)
+                        <option value="{{ $s }}" {{ request('semester') == $s ? 'selected' : '' }}>{{ $s }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Kelas -->
             <div>
                 <label for="kelas">Kelas:</label>
                 <select name="kelas" id="kelas" class="ddown">
