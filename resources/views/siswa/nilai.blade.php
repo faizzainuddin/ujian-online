@@ -46,7 +46,7 @@
                 <h2 class="announcment">Nilai Ujian</h2>
 
                 <div class="semester-selector-wrapper">
-                    <label for="semester-select">Pilih Semester:</label>
+                    <label for="semester-select">Pilih Semester:</label><br>
                     <select id="semester-select" onchange="window.location.href = '{{ route('student.nilai') }}/' + this.value;">
                         @foreach ($availableSemesters as $sem)
                             <option value="{{ $sem }}" @if ($activeSemester == $sem) selected @endif>
