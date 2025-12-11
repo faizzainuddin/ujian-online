@@ -110,7 +110,7 @@ body {
   width: 100%;
   border-radius: 8px;
   border: none;
-  background-color: var(--table-header);
+  background-color: var(--brand-blue);
   color: #fff;
   font-weight: 500;
   cursor: pointer;
