@@ -15,6 +15,11 @@
           'role' => 'Teacher',
           'initials' => 'IS',
       ]);
+
+      // Mengambil data semester dari tabel question_sets
+      if (!isset($semesterList) || count($semesterList) == 0) {
+          $semesterList = \App\Models\QuestionSet::select('semester')->distinct()->pluck('semester');
+      }
     @endphp
 
     <div class="page">
