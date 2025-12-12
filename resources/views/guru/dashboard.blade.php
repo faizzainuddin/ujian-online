@@ -28,7 +28,7 @@
           [
               'title' => 'Hasil Ujian',
               'icon' => asset('assets/img/icon-result.svg'),
-              'url' => '#',
+              'url' =>  route('teacher.results.index'),
           ],
           [
               'title' => 'Data Siswa',
@@ -82,7 +82,7 @@
               <p>
                 Kepada Yth. Bapak/Ibu Guru,<br />
                 Diberitahukan bahwa pelaksanaan Ujian Akhir Semester (UAS) untuk kelas X, XI, dan XII akan dilaksanakan secara
-                online melalui platform TrustExam pada tanggal 24 Juni 2025 s.d. Jumat, 28 Juni 2025.
+                online melalui platform TrustExam pada tanggal  5 januari 2026 hingga, 9 januari 2026.
               </p>
               <p>Hal-hal yang perlu diperhatikan:</p>
               <ul>

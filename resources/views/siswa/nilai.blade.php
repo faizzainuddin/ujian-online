@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'TrustExam') }} — Nilai Siswa</title>
+    <title>{{ config('app.name', 'TrustExam') }} - Nilai Siswa</title>
     <link rel="stylesheet" href="{{ asset('assets/css/student-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/hasil-ujian.css') }}">
 </head>
@@ -15,7 +15,7 @@
           <div>
             <aside class="brand-ribbon-nilai">
                 <span class="brand-ribbon-nilai">
-                <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+                  <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
                 </span>
                 TrustExam
             </aside>
@@ -46,7 +46,7 @@
                 <h2 class="announcment">Nilai Ujian</h2>
 
                 <div class="semester-selector-wrapper">
-                    <label for="semester-select">Pilih Semester:</label>
+                    <label for="semester-select">Pilih Semester:</label><br>
                     <select id="semester-select" onchange="window.location.href = '{{ route('student.nilai') }}/' + this.value;">
                         @foreach ($availableSemesters as $sem)
                             <option value="{{ $sem }}" @if ($activeSemester == $sem) selected @endif>

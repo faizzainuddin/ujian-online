@@ -23,6 +23,7 @@ body {
   margin: 0 auto;
 }
 
+
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -49,6 +50,75 @@ body {
 .filter-group label {
   color: var(--text-dark);
   font-weight: 600;
+}
+
+.ddown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1.6px solid #b5c7ef;
+  background: var(--surface);
+  min-width: 180px;
+  color: var(--text-dark);
+}
+
+/* Container filter hasil ujian */
+.container-filter-hasilujian-teacher {
+  background-color: #ffffff;
+  max-width: 100%;
+  /* background putih */
+  border-radius: 12px;
+  /* radius sudut */
+  padding: 20px;
+  /* jarak di dalam container */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* shadow tipis supaya mengambang */
+  margin-bottom: 20px;
+  /* jarak ke tabel di bawah */
+}
+
+/* Posisi dropdown dan label */
+.container-filter-hasilujian-teacher .position {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+/* Label */
+.container-filter-hasilujian-teacher label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+/* Dropdown */
+.container-filter-hasilujian-teacher select.ddown {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-width: 25.7rem;
+  font-size: 14px;
+}
+
+/* Tombol Tampilkan */
+.container-filter-hasilujian-teacher .btn {
+  padding: 8px 16px;
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--brand-blue);
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.container-filter-hasilujian-teacher .btn:hover {
+  background-color: #0056b3;
 }
 
 .select {
@@ -167,9 +237,21 @@ table.users-table tbody tr:nth-child(even) {
   cursor: pointer;
 }
 
-.icon-btn svg { width: 20px; height: 20px; }
-.icon-edit svg { color: #ff8a00; fill: currentColor; }
-.icon-delete svg { color: #2f5fd7; fill: currentColor; }
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-edit svg {
+  color: #ff8a00;
+  fill: currentColor;
+}
+
+.icon-delete svg {
+  color: #2f5fd7;
+  fill: currentColor;
+}
+
 .icon-btn[disabled] {
   opacity: 0.45;
   cursor: not-allowed;
@@ -278,7 +360,16 @@ table.users-table tbody tr:nth-child(even) {
 }
 
 @media (max-width: 720px) {
-  .toolbar { flex-direction: column; align-items: stretch; }
-  .users-container { padding: 0 10px; }
-  .form-card { padding: 26px 24px; }
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .users-container {
+    padding: 0 10px;
+  }
+
+  .form-card {
+    padding: 26px 24px;
+  }
 }
