@@ -13,7 +13,12 @@
 
         <header class="topbar">
           <div>
-
+            <aside class="brand-ribbon-nilai">
+                <span class="brand-ribbon-nilai">
+                <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+                </span>
+                TrustExam
+            </aside>
           </div>
             <div class="profile">
                 <div class="profile-meta">
@@ -21,10 +26,10 @@
                     <span class="profile-role">({{ $student['role'] }})</span>
                 </div>
                 <span class="avatar-circle">{{ $student['initials'] }}</span>
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button type="submit" class="logout-button" title="Keluar">
-                        <span>Keluar</span>
+                    &#10162;
                     </button>
                 </form>
             </div>
@@ -41,7 +46,7 @@
                 <h2 class="announcment">Nilai Ujian</h2>
 
                 <div class="semester-selector-wrapper">
-                    <label for="semester-select">Pilih Semester:</label>
+                    <label for="semester-select">Pilih Semester:</label><br>
                     <select id="semester-select" onchange="window.location.href = '{{ route('student.nilai') }}/' + this.value;">
                         @foreach ($availableSemesters as $sem)
                             <option value="{{ $sem }}" @if ($activeSemester == $sem) selected @endif>

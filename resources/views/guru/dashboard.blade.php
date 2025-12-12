@@ -28,7 +28,7 @@
           [
               'title' => 'Hasil Ujian',
               'icon' => asset('assets/img/icon-result.svg'),
-              'url' => '#',
+              'url' =>  route('teacher.results.index'),
           ],
           [
               'title' => 'Data Siswa',

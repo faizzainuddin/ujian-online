@@ -7,9 +7,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/student-dashboard.css') }}" />
   </head>
   <body>
-    <div class="dashboard">
+    <div class="page">
       <aside class="brand-ribbon">
-        <img src="{{ asset('assets/img/icon-student.svg') }}" alt="Ikon Siswa" />
+        <span class="brand-ribbon">
+            <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+          </span>
+          TrustExam
       </aside>
 
       <header class="topbar">
@@ -30,7 +33,7 @@
           <form action="{{ route('logout') }}" method="post">
             @csrf
             <button type="submit" class="logout-button" title="Keluar">
-              <span>Keluar</span>
+              &#10162;
             </button>
           </form>
         </div>

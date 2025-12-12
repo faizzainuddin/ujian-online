@@ -8,6 +8,7 @@ use App\Http\Controllers\TeacherStudentController;
 use App\Http\Controllers\TeacherScheduleController;
 use Illuminate\Support\Facades\Route;
 use Whoops\Run;
+use App\Http\Controllers\TeacherResultController;
 
 Route::get('/', [AdminAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
@@ -64,5 +65,11 @@ Route::middleware('student.auth')->group(function () {
     Route::get('/siswa/nilai/{semester?}', [StudentDashboardController::class, 'nilai'])
 ->name('student.nilai');
 });
+
+
+Route::get('/teacher/results', [TeacherResultController::class, 'index'])
+     ->name('teacher.results.index');
+
+Route::get('/guru/hasil-ujian', [TeacherResultController::class, 'index'])->name('teacher.results');
 
 
