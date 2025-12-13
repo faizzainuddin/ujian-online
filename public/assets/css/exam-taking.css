@@ -1,0 +1,272 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+}
+
+/* Header / Topbar */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #cfe4ff;
+    padding: 24px 36px;
+    box-shadow: 0 4px 18px rgba(57, 110, 206, 0.1);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 700;
+    font-size: 22px;
+    color: #2f5fd7;
+}
+
+.brand-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 12px 24px rgba(47, 95, 215, 0.12);
+}
+
+.brand-logo img {
+    width: 34px;
+    height: 34px;
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #5c6883;
+}
+
+.student-info .name {
+    font-weight: 600;
+    color: #1f2a44;
+}
+
+.student-info .role-tag {
+    color: #2f5fd7;
+    font-weight: 500;
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2f5fd7;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 600;
+}
+
+/* Container */
+.exam-container {
+    display: flex;
+    min-height: calc(100vh - 100px);
+}
+
+/* Sidebar Navigasi Soal */
+.question-nav {
+    background: #3d5a80;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    align-content: start;
+    width: 180px;
+}
+
+.nav-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: #5c7caa;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover {
+    background: #7a9cc6;
+}
+
+.nav-btn.active {
+    background: white;
+    color: #3d5a80;
+}
+
+.nav-btn.answered {
+    background: #48bb78;
+}
+
+/* Konten Utama */
+.exam-content {
+    flex: 1;
+    padding: 2rem 4rem;
+    position: relative;
+}
+
+/* Timer */
+.timer-box {
+    position: absolute;
+    top: 1.5rem;
+    right: 4rem;
+    background: #3d5a80;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.timer {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: block;
+}
+
+.timer-label {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Soal */
+.question-card {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-top: 1rem;
+}
+
+.question-number {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+
+.question-text {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+/* Pilihan Jawaban */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.option:hover {
+    border-color: #4a6fa5;
+    background: #f7fafc;
+}
+
+.option.selected {
+    border-color: #4a6fa5;
+    background: #ebf4ff;
+}
+
+.option input[type="radio"] {
+    margin-right: 1rem;
+    width: 18px;
+    height: 18px;
+    accent-color: #4a6fa5;
+}
+
+.option-text {
+    font-size: 1rem;
+    color: #2d3748;
+}
+
+/* Tombol Navigasi */
+.question-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #4a6fa5;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #3d5a80;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e0;
+}
+
+.btn-success {
+    background: #48bb78;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #38a169;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .exam-container {
+        flex-direction: column;
+    }
+
+    .question-nav {
+        width: 100%;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .exam-content {
+        padding: 1.5rem;
+    }
+
+    .timer-box {
+        position: static;
+        margin-bottom: 1.5rem;
+    }
+}

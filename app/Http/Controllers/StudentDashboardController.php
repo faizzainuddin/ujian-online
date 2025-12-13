@@ -152,4 +152,45 @@ class StudentDashboardController extends Controller
 
         return view('siswa.nilai', compact('student', 'results', 'availableSemesters', 'activeSemester'));
     }
+
+    public function takeExam(Request $request, int $ujianId): View
+    {
+        $user = auth()->user();
+
+        $defaultName = $user ? $user->nama_siswa : 'Student';
+        $defaultInitials = $user ? strtoupper(substr($user->nama_siswa, 0, 2)) : 'ST';
+
+        $student = $request->session()->get('student', [
+            'name' => $defaultName,
+            'role' => 'Student',
+            'initials' => $defaultInitials,
+        ]);
+
+        // Data soal contoh (nanti diganti dengan data dari database)
+        $totalQuestions = 15;
+        $currentQuestion = (int) $request->get('q', 1);
+        $selectedAnswer = $request->session()->get("exam_{$ujianId}_q{$currentQuestion}", null);
+
+        $question = [
+            'text' => 'Berapa hasil dari 2 + 2?',
+            'options' => [
+                'A' => '3',
+                'B' => '4',
+                'C' => '5',
+                'D' => '6',
+            ],
+        ];
+
+        $timeRemaining = '01:59:08';
+
+        return view('siswa.exam-taking', compact(
+            'student',
+            'totalQuestions',
+            'currentQuestion',
+            'selectedAnswer',
+            'question',
+            'timeRemaining',
+            'ujianId'
+        ));
+    }
 }

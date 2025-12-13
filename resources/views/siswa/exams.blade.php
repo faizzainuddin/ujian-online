@@ -97,7 +97,7 @@
       function startExam() {
         if (selectedExamId) {
           // Redirect ke halaman ujian dengan ID
-          window.location.href = `/ujian/${selectedExamId}`;
+          window.location.href = `/siswa/ujian/${selectedExamId}`;
         }
       }
 
