@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'TrustExam') }} - Ujian</title>
+    <title>{{ config('app.name', 'TrustExam') }} - {{ $examTitle ?? 'Ujian' }}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/exam-taking.css') }}">
 </head>
 <body>
@@ -29,8 +29,9 @@
             <aside class="question-nav">
                 @for ($i = 1; $i <= $totalQuestions; $i++)
                     <button 
-                        class="nav-btn {{ $i === $currentQuestion ? 'active' : '' }}" 
-                        data-question="{{ $i }}"
+                        type="button"
+                        class="nav-btn indicator {{ $i === $currentQuestion ? 'active' : '' }} {{ session("exam_{$ujianId}_q{$i}") !== null ? 'answered' : '' }}"
+                        disabled
                     >
                         {{ $i }}
                     </button>
@@ -46,68 +47,70 @@
                 </div>
 
                 {{-- Soal --}}
-                <div class="question-card">
-                    <h2 class="question-number">Soal {{ $currentQuestion }}</h2>
-                    <p class="question-text">{{ $question['text'] }}</p>
+                <form id="examForm" method="POST" action="{{ route('student.exam.answer', ['ujianId' => $ujianId]) }}" data-is-last="{{ $currentQuestion === $totalQuestions ? 'true' : 'false' }}">
+                    @csrf
+                    <input type="hidden" name="question_number" value="{{ $currentQuestion }}">
+                    <input type="hidden" name="action" id="actionInput" value="next">
+                    
+                    <div class="question-card">
+                        <h2 class="question-number">Soal {{ $currentQuestion }}</h2>
+                        <p class="question-text">{!! nl2br(e($question['text'])) !!}</p>
 
-                    <div class="options">
-                        @foreach ($question['options'] as $key => $option)
-                            <label class="option {{ $selectedAnswer === $key ? 'selected' : '' }}">
-                                <input 
-                                    type="radio" 
-                                    name="answer" 
-                                    value="{{ $key }}"
-                                    {{ $selectedAnswer === $key ? 'checked' : '' }}
-                                >
-                                <span class="option-text">{{ $option }}</span>
-                            </label>
-                        @endforeach
+                        <div class="options">
+                            @foreach ($question['options'] as $index => $option)
+                                <label class="option {{ $selectedAnswer == $index ? 'selected' : '' }}">
+                                    <input 
+                                        type="radio" 
+                                        name="answer" 
+                                        value="{{ $index }}"
+                                        {{ $selectedAnswer == $index ? 'checked' : '' }}
+                                    >
+                                    <span class="option-text">{{ $option }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+
+                        {{-- Navigasi --}}
+                        <div class="question-actions">
+                            @if ($currentQuestion < $totalQuestions)
+                                <button type="submit" class="btn btn-primary" onclick="document.getElementById('actionInput').value='next';">
+                                    Selanjutnya ➡
+                                </button>
+                            @else
+                                <button type="submit" class="btn btn-success" onclick="document.getElementById('actionInput').value='finish';">
+                                    Selesai ✓
+                                </button>
+                            @endif
+                        </div>
                     </div>
-
-                    {{-- Navigasi --}}
-                    <div class="question-actions">
-                        @if ($currentQuestion > 1)
-                            <button class="btn btn-secondary" id="prevBtn">
-                                ⬅ Sebelumnya
-                            </button>
-                        @endif
-
-                        @if ($currentQuestion < $totalQuestions)
-                            <button class="btn btn-primary" id="nextBtn">
-                                Selanjutnya ➡
-                            </button>
-                        @else
-                            <button class="btn btn-success" id="submitBtn">
-                                Selesai ✓
-                            </button>
-                        @endif
-                    </div>
-                </div>
+                </form>
             </main>
         </div>
     </div>
 
     <script>
-        // Timer countdown
         document.addEventListener('DOMContentLoaded', function() {
+            // Timer countdown per soal (30 detik default dari controller)
+            const form = document.getElementById('examForm');
+            const isLast = form.dataset.isLast === 'true';
             const timerEl = document.getElementById('timer');
-            let [hours, minutes, seconds] = timerEl.textContent.split(':').map(Number);
-            let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            let [minutes, seconds] = timerEl.textContent.split(':').map(Number);
+            let totalSeconds = minutes * 60 + seconds;
 
             const countdown = setInterval(() => {
                 if (totalSeconds <= 0) {
                     clearInterval(countdown);
-                    alert('Waktu habis!');
+                    document.getElementById('actionInput').value = isLast ? 'finish' : 'next';
+                    form.submit();
                     return;
                 }
                 totalSeconds--;
-                const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
-                const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
+                const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
                 const s = (totalSeconds % 60).toString().padStart(2, '0');
-                timerEl.textContent = `${h}:${m}:${s}`;
+                timerEl.textContent = `${m}:${s}`;
             }, 1000);
 
-            // Pilihan jawaban
+            // Pilihan jawaban - visual feedback
             document.querySelectorAll('.option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));

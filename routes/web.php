@@ -65,6 +65,8 @@ Route::middleware('student.auth')->group(function () {
     Route::get('/ujian-siswa', [StudentDashboardController::class, 'exams'])->name('student.exams');
     Route::get('/siswa/nilai/{semester?}', [StudentDashboardController::class, 'nilai'])->name('student.nilai');
     Route::get('/siswa/ujian/{ujianId}', [StudentDashboardController::class, 'takeExam'])->name('student.exam.take');
+    Route::post('/siswa/ujian/{ujianId}/answer', [StudentDashboardController::class, 'saveAnswer'])->name('student.exam.answer');
+    Route::get('/siswa/ujian/{ujianId}/selesai', [StudentDashboardController::class, 'finishExam'])->name('student.exam.finish');
 });
 
 Route::get('/teacher/results', [TeacherResultController::class, 'index'])->name('teacher.results.index');

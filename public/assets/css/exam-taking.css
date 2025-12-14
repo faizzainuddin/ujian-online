@@ -96,22 +96,35 @@ body {
     border-radius: 8px;
     background: #5c7caa;
     color: white;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1rem;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.nav-btn[disabled] {
+    cursor: default;
+    pointer-events: none;
 }
 
 .nav-btn:hover {
     background: #7a9cc6;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 .nav-btn.active {
     background: white;
     color: #3d5a80;
+    box-shadow: 0 0 0 2px rgba(92, 124, 170, 0.35);
 }
 
 .nav-btn.answered {
     background: #48bb78;
+    color: white;
 }
 
 /* Konten Utama */
