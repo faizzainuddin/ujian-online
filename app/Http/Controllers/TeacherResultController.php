@@ -31,26 +31,38 @@ class TeacherResultController extends Controller
 
         $teacherForView = ['name' => $teacherName ?? 'Guru'];
 
-        // Tentukan nama tabel ujian
+        // Tentukan nama tabel ujian dan question_sets jika ada
         $ujianTable = Schema::hasTable('ujian') ? 'ujian' : (Schema::hasTable('ujian_sekolah') ? 'ujian_sekolah' : null);
+        $questionSetTable = Schema::hasTable('question_sets') ? 'question_sets' : null;
+        $canJoinQuestionSet = $ujianTable && $questionSetTable && Schema::hasColumn($ujianTable, 'question_set_id');
 
         // Ambil data dropdown
         $mataPelajaranList = DB::table('guru')->distinct()->pluck('matapelajaran');
         $jenisUjianList = $ujianTable ? DB::table($ujianTable)->distinct()->pluck('nama_ujian') : collect();
         $kelasList = DB::table('siswa')->distinct()->pluck('kelas');
-        $semesterList = $ujianTable && Schema::hasColumn($ujianTable, 'semester')
-            ? DB::table($ujianTable)->distinct()->pluck('semester')
-            : collect();
+        if ($questionSetTable) {
+            $semesterList = DB::table($questionSetTable)->distinct()->pluck('semester');
+        } elseif ($ujianTable && Schema::hasColumn($ujianTable, 'semester')) {
+            $semesterList = DB::table($ujianTable)->distinct()->pluck('semester');
+        } else {
+            $semesterList = collect();
+        }
 
         // Query utama
         $query = DB::table('hasil_ujian')
             ->join('siswa', 'hasil_ujian.siswa_id', '=', 'siswa.siswa_id');
 
         $joinedGuru = false;
+        $joinedQuestionSet = false;
         if ($ujianTable) {
             $query->join($ujianTable, 'hasil_ujian.ujian_id', '=', $ujianTable . '.ujian_id')
                   ->leftJoin('guru', $ujianTable . '.guru_id', '=', 'guru.guru_id');
             $joinedGuru = true;
+
+            if ($canJoinQuestionSet) {
+                $query->leftJoin($questionSetTable, $ujianTable . '.question_set_id', '=', $questionSetTable . '.id');
+                $joinedQuestionSet = true;
+            }
         } elseif (Schema::hasColumn('hasil_ujian', 'guru_id')) {
             // Fallback jika kolom guru_id memang ada di tabel hasil_ujian
             $query->leftJoin('guru', 'hasil_ujian.guru_id', '=', 'guru.guru_id');
@@ -64,8 +76,12 @@ class TeacherResultController extends Controller
         if ($request->filled('jenis_ujian') && $ujianTable) {
             $query->where($ujianTable . '.nama_ujian', $request->jenis_ujian);
         }
-        if ($request->filled('semester') && $ujianTable) {
-            $query->where($ujianTable . '.semester', $request->semester);
+        if ($request->filled('semester')) {
+            if ($joinedQuestionSet) {
+                $query->where($questionSetTable . '.semester', $request->semester);
+            } elseif ($ujianTable && Schema::hasColumn($ujianTable, 'semester')) {
+                $query->where($ujianTable . '.semester', $request->semester);
+            }
         }
         if ($request->filled('kelas')) {
             $query->where('siswa.kelas', $request->kelas);
