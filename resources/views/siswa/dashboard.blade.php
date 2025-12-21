@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ config('app.name', 'TrustExam') }} — Dashboard Siswa</title>
+    <title>{{ config('app.name', 'TrustExam') }} - Dashboard Siswa</title>
     <link rel="stylesheet" href="{{ asset('assets/css/student-dashboard.css') }}" />
   </head>
   <body>
-    <div class="page">
+    <div class="dashboard page">
       <aside class="brand-ribbon">
         <span class="brand-ribbon">
-            <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
-          </span>
-          TrustExam
+          <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+        </span>
+        TrustExam
       </aside>
 
       <header class="topbar">
@@ -42,7 +42,7 @@
       <main class="content">
         <section class="quick-links">
           @foreach ($quickLinks as $link)
-             <a class="quick-card" href="{{ $link['href'] }}">
+            <a class="quick-card" href="{{ $link['href'] }}">
               <span class="icon">
                 <img src="{{ $link['icon'] }}" alt="" />
               </span>

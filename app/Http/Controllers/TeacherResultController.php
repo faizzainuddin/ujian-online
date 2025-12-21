@@ -44,15 +44,21 @@ class TeacherResultController extends Controller
 
         // Query utama
         $query = DB::table('hasil_ujian')
-            ->join('siswa', 'hasil_ujian.siswa_id', '=', 'siswa.siswa_id')
-            ->leftJoin('guru', 'hasil_ujian.guru_id', '=', 'guru.guru_id');
+            ->join('siswa', 'hasil_ujian.siswa_id', '=', 'siswa.siswa_id');
 
+        $joinedGuru = false;
         if ($ujianTable) {
-            $query->join($ujianTable, 'hasil_ujian.ujian_id', '=', $ujianTable . '.ujian_id');
+            $query->join($ujianTable, 'hasil_ujian.ujian_id', '=', $ujianTable . '.ujian_id')
+                  ->leftJoin('guru', $ujianTable . '.guru_id', '=', 'guru.guru_id');
+            $joinedGuru = true;
+        } elseif (Schema::hasColumn('hasil_ujian', 'guru_id')) {
+            // Fallback jika kolom guru_id memang ada di tabel hasil_ujian
+            $query->leftJoin('guru', 'hasil_ujian.guru_id', '=', 'guru.guru_id');
+            $joinedGuru = true;
         }
 
         // Filter dari request
-        if ($request->filled('mata_pelajaran')) {
+        if ($joinedGuru && $request->filled('mata_pelajaran')) {
             $query->where('guru.matapelajaran', $request->mata_pelajaran);
         }
         if ($request->filled('jenis_ujian') && $ujianTable) {
@@ -66,12 +72,17 @@ class TeacherResultController extends Controller
         }
 
         // Ambil hasil
-        $results = $query->select(
+        $select = [
             'hasil_ujian.*',
             'siswa.nama_siswa',
             'siswa.kelas',
-            'guru.matapelajaran'
-        )->get();
+        ];
+
+        if ($joinedGuru) {
+            $select[] = 'guru.matapelajaran';
+        }
+
+        $results = $query->select($select)->get();
 
         // Return view
         return view('guru.hasil_ujian.hasilujian', compact(

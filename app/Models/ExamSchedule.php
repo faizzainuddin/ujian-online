@@ -15,6 +15,11 @@ class ExamSchedule extends Model
         'time_end',
     ];
 
+    protected $casts = [
+        'date_start' => 'datetime',
+        'date_end' => 'datetime',
+    ];
+
     public function questionSet()
     {
         return $this->belongsTo(QuestionSet::class, 'question_set_id');

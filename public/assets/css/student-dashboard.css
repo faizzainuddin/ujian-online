@@ -1,25 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-}
-
-.dashboard {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  background: #e9f4ff;
+  overflow-x: hidden;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #e9f4ff;
   color: #123456;
 }
 
+.page,
+.dashboard {
+  min-height: 100vh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+}
+
 .brand-ribbon {
-  background: linear-gradient(90deg, #b9dafe 0%);
+  background: linear-gradient(90deg, #b9dafe 0%, #d8eaff 100%);
   padding: 0.6rem 1rem;
   display: flex;
   align-items: center;
+  gap: 0.8rem;
   font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
   font-size: 1.45rem;
   font-weight: 700;
@@ -39,12 +56,12 @@ body {
   align-items: center;
 }
 
-
-
 .brand-ribbon-nilai {
+  background: linear-gradient(90deg, #b9dafe 0%, #d8eaff 100%);
   padding: 0.6rem 1rem;
   display: flex;
   align-items: center;
+  gap: 0.8rem;
   font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
   font-size: 1.45rem;
   font-weight: 700;
@@ -64,20 +81,38 @@ body {
   align-items: center;
 }
 
-.page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .topbar {
-  background: #d8eaff;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  background: #d8eaff;
   padding: 1.5rem 3rem;
   border-bottom: 1px solid rgba(18, 52, 86, 0.08);
   box-shadow: 0 2px 6px rgba(13, 38, 59, 0.1);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 700;
+  font-size: 22px;
+  color: #2f5fd7;
+}
+
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 12px 24px rgba(47, 95, 215, 0.12);
+}
+
+.brand-logo img {
+  width: 34px;
+  height: 34px;
 }
 
 .greeting .subtitle {
@@ -98,6 +133,27 @@ body {
   font-size: 0.9rem;
   padding: 0.2rem 0.7rem;
   border-radius: 999px;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #5c6883;
+}
+
+.student-info form {
+  margin: 0;
+}
+
+.student-info .name {
+  font-weight: 600;
+  color: #1f2a44;
+}
+
+.student-info .role-tag {
+  color: #2f5fd7;
+  font-weight: 500;
 }
 
 .profile {
@@ -123,7 +179,7 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #296dd6;
+  background: #2f5fd7;
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -134,7 +190,7 @@ body {
 .logout-button {
   border: none;
   background: rgba(47, 95, 215, 0.18);
-  color: var(--primary);
+  color: #2f5fd7;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -155,10 +211,22 @@ body {
 }
 
 .content {
+  flex: 1 1 auto;
   padding: 2.5rem 3rem 3.5rem;
+  background: transparent;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.welcome {
+  margin: 0 0 36px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.content > section {
+  margin-bottom: 2rem;
 }
 
 .quick-links {
@@ -290,6 +358,4 @@ body {
   .announcement {
     padding: 1.5rem;
   }
-
-
 }
