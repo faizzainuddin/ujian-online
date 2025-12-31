@@ -13,6 +13,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class StudentDashboardController extends Controller
 {
@@ -117,7 +118,8 @@ class StudentDashboardController extends Controller
             'class' => $defaultClass,
         ]);
 
-        $siswaId = $request->session()->get('siswa_id', $defaultSiswaId);
+        $studentSession = $request->session()->get('student', []);
+        $siswaId = $studentSession['id'] ?? ($user?->siswa_id ?? $defaultSiswaId);
 
         $availableSemesters = QuestionSet::distinct('semester')->pluck('semester')->sort()->toArray();
 
@@ -125,17 +127,34 @@ class StudentDashboardController extends Controller
 
         $results = [];
 
-        if ($activeSemester) {
-            $resultsData = HasilUjian::select([
-                'question_sets.subject',
-                'question_sets.exam_type',
-                'hasil_ujian.nilai',
-            ])
-                ->join('ujian', 'hasil_ujian.ujian_id', '=', 'ujian.ujian_id')
-                ->join('question_sets', 'ujian.question_set_id', '=', 'question_sets.id')
-                ->where('hasil_ujian.siswa_id', $siswaId)
-                ->where('question_sets.semester', $activeSemester)
-                ->get();
+        if ($activeSemester && $siswaId) {
+            $resultsQuery = null;
+            $hasQuestionSets = Schema::hasTable('question_sets');
+
+            if ($hasQuestionSets && Schema::hasTable('exam_schedules')) {
+                $resultsQuery = HasilUjian::select([
+                    'question_sets.subject',
+                    'question_sets.exam_type',
+                    'hasil_ujian.nilai',
+                ])
+                    ->join('exam_schedules', 'hasil_ujian.ujian_id', '=', 'exam_schedules.id')
+                    ->join('question_sets', 'exam_schedules.question_set_id', '=', 'question_sets.id');
+            } elseif ($hasQuestionSets && Schema::hasTable('ujian') && Schema::hasColumn('ujian', 'question_set_id')) {
+                $resultsQuery = HasilUjian::select([
+                    'question_sets.subject',
+                    'question_sets.exam_type',
+                    'hasil_ujian.nilai',
+                ])
+                    ->join('ujian', 'hasil_ujian.ujian_id', '=', 'ujian.ujian_id')
+                    ->join('question_sets', 'ujian.question_set_id', '=', 'question_sets.id');
+            }
+
+            $resultsData = $resultsQuery
+                ? $resultsQuery
+                    ->where('hasil_ujian.siswa_id', $siswaId)
+                    ->where('question_sets.semester', $activeSemester)
+                    ->get()
+                : collect();
 
             $results = $resultsData->groupBy('exam_type')
                 ->map(function ($items) {
