@@ -8,20 +8,12 @@
   </head>
   <body>
     <div class="dashboard page">
-      <aside class="brand-ribbon">
-        <span class="brand-ribbon">
-          <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
-        </span>
-        TrustExam
-      </aside>
-
       <header class="topbar">
-        <div class="greeting">
-          <p class="subtitle">Selamat datang,</p>
-          <h1>{{ $student['name'] }}</h1>
-          @if (! empty($student['class']))
-            <span class="student-class">Kelas {{ $student['class'] }}</span>
-          @endif
+        <div class="brand">
+          <span class="brand-logo">
+            <img src="{{ asset('assets/img/trustexam-illustration.svg') }}" alt="Logo TrustExam" />
+          </span>
+          TrustExam
         </div>
 
         <div class="profile">
@@ -38,6 +30,15 @@
           </form>
         </div>
       </header>
+
+      <div class="dashboard-content">
+        <div class="greeting">
+          <p class="subtitle">Selamat datang,</p>
+          <h1>{{ $student['name'] }}</h1>
+          @if (! empty($student['class']))
+            <span class="student-class">Kelas {{ $student['class'] }}</span>
+          @endif
+        </div>
 
       <main class="content">
         <section class="quick-links">
@@ -70,6 +71,7 @@
           </article>
         </section>
       </main>
+      </div>
     </div>
   </body>
 </html>
