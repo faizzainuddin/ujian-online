@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ExamSchedule;
+use App\Models\HasilUjian;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -16,9 +17,10 @@ class ExamService
      * Mengambil daftar ujian untuk siswa berdasarkan kelas (jika diset)
      * 
      * @param string|null $studentClass Nama kelas siswa (contoh: "X IPA 1")
+     * @param int|null $siswaId ID siswa untuk cek hasil ujian
      * @return Collection Koleksi data ujian yang sudah ditransformasi
      */
-    public function getExamsForStudent(?string $studentClass = null): Collection
+    public function getExamsForStudent(?string $studentClass = null, ?int $siswaId = null): Collection
     {
         // Ambil jadwal ujian dari database dengan relasi questionSet dan teacher
         // Filter berdasarkan kelas jika ada, urutkan berdasarkan tanggal dan waktu mulai
@@ -30,16 +32,17 @@ class ExamService
             $query->where('class', $studentClass);
         }
 
-        return $query->get()->map(fn($schedule) => $this->mapToExamData($schedule));
+        return $query->get()->map(fn($schedule) => $this->mapToExamData($schedule, $siswaId));
     }
 
     /**
      * Transformasi data jadwal ujian menjadi format yang siap ditampilkan di view
      * 
      * @param ExamSchedule $schedule Model jadwal ujian dari database
+     * @param int|null $siswaId ID siswa untuk cek hasil ujian
      * @return array Data ujian dalam format array untuk view
      */
-    private function mapToExamData(ExamSchedule $schedule): array
+    private function mapToExamData(ExamSchedule $schedule, ?int $siswaId = null): array
     {
         // Parse tanggal dan waktu dari database
         $dateStart = Carbon::parse($schedule->date_start);
@@ -55,6 +58,8 @@ class ExamService
             'time' => $timeStart->format('H:i') . ' - ' . $timeEnd->format('H:i'), // Format jam: 08:00 - 09:30
             'teacher' => $schedule->questionSet->teacher->nama_guru ?? 'N/A', // Nama guru pengajar
             'canStart' => $this->canStartExam($schedule), // Status apakah ujian bisa dimulai
+            'isExpired' => $this->isExamExpired($schedule), // Status apakah ujian sudah selesai/lewat
+            'isCompleted' => $this->isExamCompleted($schedule->id, $siswaId), // Status apakah siswa sudah mengerjakan
         ];
     }
 
@@ -92,6 +97,47 @@ class ExamService
         // 1. Waktu sekarang >= waktu mulai ujian (gte = greater than or equal)
         // 2. Waktu sekarang <= waktu selesai ujian (lte = less than or equal)
         return $now->gte($examStart) && $now->lte($examEnd);
+    }
+
+    /**
+     * Mengecek apakah ujian sudah lewat/selesai
+     * 
+     * @param ExamSchedule $schedule Model jadwal ujian
+     * @return bool true jika ujian sudah selesai, false jika belum
+     */
+    private function isExamExpired(ExamSchedule $schedule): bool
+    {
+        $now = now();
+        
+        $timeEnd = Carbon::parse($schedule->time_end);
+        $examEndDate = $schedule->date_end ?? $schedule->date_start;
+        $examEnd = $examEndDate->copy()
+            ->setHour($timeEnd->hour)
+            ->setMinute($timeEnd->minute)
+            ->setSecond($timeEnd->second);
+        
+        // Ujian expired jika waktu sekarang sudah melewati waktu selesai
+        return $now->gt($examEnd);
+    }
+
+    /**
+     * Mengecek apakah siswa sudah menyelesaikan ujian
+     * 
+     * @param int $examScheduleId ID jadwal ujian
+     * @param int|null $siswaId ID siswa
+     * @return bool true jika siswa sudah mengerjakan, false jika belum
+     */
+    private function isExamCompleted(int $examScheduleId, ?int $siswaId = null): bool
+    {
+        // Jika tidak ada siswaId, return false
+        if (!$siswaId) {
+            return false;
+        }
+
+        // Cek apakah ada hasil ujian untuk siswa ini di ujian ini
+        return HasilUjian::where('siswa_id', $siswaId)
+            ->where('ujian_id', $examScheduleId)
+            ->exists();
     }
 
     /**
