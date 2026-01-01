@@ -64,37 +64,31 @@ body {
   color: var(--text-dark);
 }
 
-/* Container filter hasil ujian */
 .container-filter-hasilujian-teacher {
   background-color: #ffffff;
   max-width: 100%;
-  /* background putih */
   border-radius: 12px;
-  /* radius sudut */
   padding: 20px;
-  /* jarak di dalam container */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  /* shadow tipis supaya mengambang */
   margin-bottom: 20px;
-  /* jarak ke tabel di bawah */
 }
 
-/* Posisi dropdown dan label */
+
 .container-filter-hasilujian-teacher .position {
   display: flex;
-  gap: 20px;
+  gap: 175px;
   flex-wrap: wrap;
   align-items: flex-end;
 }
 
-/* Label */
+
 .container-filter-hasilujian-teacher label {
   display: block;
   font-weight: 500;
   margin-bottom: 5px;
 }
 
-/* Dropdown */
+
 .container-filter-hasilujian-teacher select.ddown {
   padding: 6px 10px;
   border-radius: 8px;
@@ -103,11 +97,11 @@ body {
   font-size: 14px;
 }
 
-/* Tombol Tampilkan */
+
 .container-filter-hasilujian-teacher .btn {
   padding: 8px 16px;
   margin-top: 10px;
-  width: 100%;
+  width: 99rem;
   border-radius: 8px;
   border: none;
   background-color: var(--brand-blue);

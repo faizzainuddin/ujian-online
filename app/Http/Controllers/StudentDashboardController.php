@@ -174,8 +174,18 @@ class StudentDashboardController extends Controller
                 ->toArray();
         }
 
-        $results['UTS'] = $results['UTS'] ?? [];
-        $results['UAS'] = $results['UAS'] ?? [];
+        // Konteks SMK: Semester Ganjil (1,3,5..) hanya menampilkan UTS, Genap (2,4,6..) hanya UAS.
+        preg_match('/\d+/', $activeSemester, $matches);
+
+// Ubah hasil regex jadi integer
+        $semesterInt = isset($matches[0]) ? (int) $matches[0] : 0;
+
+// Logika ganjil/genap
+    if ($semesterInt % 2 !== 0) {
+        $results = ['UTS' => $results['UTS'] ?? []];
+    } else {
+        $results = ['UAS' => $results['UAS'] ?? []];
+    }
 
         return view('siswa.nilai', compact('student', 'results', 'availableSemesters', 'activeSemester'));
     }
