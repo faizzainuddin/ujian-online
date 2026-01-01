@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('ujian', function (Blueprint $table) {
-            if (! Schema::hasColumn('ujian', 'question_set_id')) {
-                $table->unsignedBigInteger('question_set_id')->nullable()->after('nama_ujian');
-                $table->foreign('question_set_id')
-                    ->references('id')
-                    ->on('question_sets')
-                    ->cascadeOnUpdate()
-                    ->nullOnDelete();
-            }
+          Schema::table('ujian', function (Blueprint $table) {
+            $table->unsignedBigInteger('question_set_id')
+                  ->nullable()
+                  ->after('ujian_id');
+
+            $table->foreign('question_set_id')
+                  ->references('id')
+                  ->on('question_sets')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
         });
     }
 
