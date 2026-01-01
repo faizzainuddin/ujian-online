@@ -33,6 +33,13 @@
 
         <h2 class="page-title">Ujian</h2>
 
+        @if (session('error'))
+          <div class="alert alert-error">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-message">{{ session('error') }}</span>
+          </div>
+        @endif
+
         <div class="exam-cards-grid">
           @foreach ($exams as $exam)
             <div class="exam-card">
@@ -40,7 +47,11 @@
               <p class="exam-date">{{ $exam['day'] }}, {{ $exam['date'] }}</p>
               <p class="exam-time">{{ $exam['time'] }}</p>
               
-              @if ($exam['canStart'])
+              @if ($exam['isCompleted'])
+                <button class="exam-button exam-button-completed" disabled>Ujian Sudah Dilaksanakan</button>
+              @elseif ($exam['isExpired'])
+                <button class="exam-button exam-button-expired" disabled>Ujian Selesai</button>
+              @elseif ($exam['canStart'])
                 <button class="exam-button exam-button-active" onclick="showExamConfirmation('{{ $exam['subject'] }}', {{ $exam['id'] }})">Mulai Ujian</button>
               @else
                 <button class="exam-button exam-button-disabled" disabled>Belum Bisa Dimulai</button>

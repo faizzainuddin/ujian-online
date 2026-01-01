@@ -41,7 +41,7 @@
         <a href="{{ route('teacher.dashboard') }}" class="back-link">&#8592; Kembali ke Dashboard</a>
         <h2 style="margin-bottom: 20px;">Hasil Ujian Siswa</h2>
 
-        <form method="GET" action="{{ route('teacher.results') }}" style="display: flex; gap: 15px; align-items: flex-end; margin-bottom: 20px;">
+        <form method="GET" action="{{ route('teacher.results') }}" style="display: flex; gap: 200px; align-items: flex-end; margin-bottom: 20px;">
           <div class="container-filter-hasilujian-teacher">
             <div class="position">
               <div>
