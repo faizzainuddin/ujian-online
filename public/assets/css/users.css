@@ -76,7 +76,7 @@ body {
 
 .container-filter-hasilujian-teacher .position {
   display: flex;
-  gap: 175px;
+  gap: 50px;
   flex-wrap: wrap;
   align-items: flex-end;
 }
@@ -101,7 +101,7 @@ body {
 .container-filter-hasilujian-teacher .btn {
   padding: 8px 16px;
   margin-top: 10px;
-  width: 99rem;
+  width: 90rem;
   border-radius: 8px;
   border: none;
   background-color: var(--brand-blue);
